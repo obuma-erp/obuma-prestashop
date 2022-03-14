@@ -7,7 +7,7 @@ require_once "obuma_conector.php";
 require_once "functions.php";
 
 
-class Obuma extends Module{
+class ObumaPrestashopMain extends Module{
 
     public function __construct(){
 
