@@ -7,12 +7,12 @@ require_once "obuma_conector.php";
 require_once "functions.php";
 
 
-class ObumaPrestashopMain extends Module{
+class Obuma extends Module{
 
     public function __construct(){
 
 
-        $this->name = "obuma-prestashop-main";
+        $this->name = "obuma";
         $this->tab = "front_office_features";
         $this->version = "1.0.0"; 
         $this->author = "Obuma";
