@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <module>
-    <name>obuma</name>
+    <name>obuma-prestashop-main</name>
     <displayName><![CDATA[Integracion API OBUMA]]></displayName>
     <version><![CDATA[1.0.0]]></version>
     <description><![CDATA[Este modulo permite obtener informacion de API OBUMA]]></description>
