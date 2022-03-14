@@ -42,7 +42,7 @@ $(document).ready(function(){
   if (pagina == "productos_imagenes" || pagina == "precios" || pagina == "productos"  || pagina == "stock") {
     $.ajax({
     method : "POST",
-    url : baseDir+"modules/obuma/categorias.php",
+    url : baseDir+"modules/obuma-prestashop-main/categorias.php",
     data : {
       obtener : true
     },
@@ -162,7 +162,7 @@ $(document).ready(function(){
     var pagina = parseInt(numero_pagina) + 1;
     $.ajax({
       method : "POST",
-      url : baseDir+"modules/obuma/" + url,
+      url : baseDir+"modules/obuma-prestashop-main/" + url,
       data : { 
         pagina : pagina,
         categorias_seleccionadas : categorias_seleccionadas
@@ -237,7 +237,7 @@ $(document).ready(function(){
       var result = JSON.parse(response);
       console.log(result);
       if (result.completado == result.total) {
-          $(".lds-spinner").html("<img style='width:100%;margin-bottom:5px;' src='../modules/obuma/views/img/notification_done.png'>")
+          $(".lds-spinner").html("<img style='width:100%;margin-bottom:5px;' src='../modules/obuma-prestashop-main/views/img/notification_done.png'>")
           finalizar();
           $("#texto-resumen").css("color","#337ab7")
           $("#texto-log").css("color","#337ab7")
