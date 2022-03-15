@@ -14,7 +14,7 @@ class AdminLogOrdenesController extends ModuleAdminController{
 	public function initContent(){
 		parent::initContent();
 
-		$sql = "SELECT * FROM ". _DB_PREFIX_."order_obuma_log";
+		$sql = "SELECT * FROM ". _DB_PREFIX_."obuma_log_order";
 
 		$log_ordenes = Db::getInstance()->executeS($sql);
 

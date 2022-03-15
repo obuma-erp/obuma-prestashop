@@ -10,8 +10,8 @@ $sql = array();
 */
 
 
- $table_order_obuma_log = _DB_PREFIX_ . 'order_obuma_log';
-     $sql[] = "CREATE TABLE IF NOT EXISTS $table_order_obuma_log (
+ $table_obuma_log_order = _DB_PREFIX_ . 'obuma_log_order';
+     $sql[] = "CREATE TABLE IF NOT EXISTS $table_obuma_log_order (
       `id` int(11) NOT NULL AUTO_INCREMENT,
       `order_id` int(11)  NOT NULL,
       `fecha` date  NOT NULL,
@@ -21,6 +21,27 @@ $sql = array();
       `estado` text  NOT NULL,
        PRIMARY KEY (`id`))";
     
+
+     $table_obuma_log_synchronization = _DB_PREFIX_ . 'obuma_log_synchronization';
+     $sql[] = "CREATE TABLE IF NOT EXISTS $table_obuma_log_synchronization (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `fecha` date  NOT NULL,
+      `hora` time  NOT NULL,
+      `tipo` text  NOT NULL,
+      `opcion` text  NOT NULL,
+      `resultado` text  NOT NULL,
+       PRIMARY KEY (`id`))";
+
+    $table_obuma_log_webhook = _DB_PREFIX_ . 'obuma_log_webhook';
+     $sql[] = "CREATE TABLE IF NOT EXISTS $table_obuma_log_webhook (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `fecha` date  NOT NULL,
+      `hora` time  NOT NULL,
+      `tipo` text  NOT NULL,
+      `peticion` text  NOT NULL,
+      `resultado` text  NOT NULL,
+       PRIMARY KEY (`id`))";
+
 
     $table_order_obuma = _DB_PREFIX_ . 'order_obuma';
      $sql[] = "CREATE TABLE IF NOT EXISTS $table_order_obuma (

@@ -43,7 +43,12 @@ class Obuma extends Module{
             !Configuration::updateValue("registrar_contabilidad",0) || 
             !Configuration::updateValue("enviar_email_cliente",0) || 
             !Configuration::updateValue("registrar_cobro",0) || 
-            !Configuration::updateValue("tipo_documento","[]") || 
+            !Configuration::updateValue("tipo_documento","[]") ||
+            !Configuration::updateValue("nota_venta_segundo_plano",0) || 
+            !Configuration::updateValue("enviar_ventas_obuma",0) || 
+            !Configuration::updateValue("cambiar_a_completado",0) || 
+            !Configuration::updateValue("sincronizar_precio",0) || 
+            !Configuration::updateValue("update_limpiar_registros_date","") || 
 
             !$this->registerHook("DisplayBackOfficeHeader") || 
             !$this->registerHook("Header") ||
@@ -84,6 +89,11 @@ class Obuma extends Module{
            !Configuration::deleteByName("enviar_email_cliente") || 
            !Configuration::deleteByName("registrar_cobro") ||
            !Configuration::deleteByName("tipo_documento") ||  
+           !Configuration::deleteByName("nota_venta_segundo_plano") || 
+           !Configuration::deleteByName("enviar_ventas_obuma") || 
+           !Configuration::deleteByName("cambiar_a_completado") || 
+           !Configuration::deleteByName("sincronizar_precio") || 
+           !Configuration::deleteByName("update_limpiar_registros_date") || 
            !$this->deleteTabLink()){
             return false;
         }else{
@@ -392,7 +402,41 @@ class Obuma extends Module{
       $tab->add();
 
 
-//Sub menu code
+
+      //Sub menu code
+
+      $parentTabID = Tab::getIdFromClassName('AdminObuma');
+      $parentTab = new Tab($parentTabID);
+
+      $tab = new Tab();
+      $tab->active = 1;
+      $tab->class_name = "AdminVincularCategorias";
+      $tab->name = array();
+      foreach (Language::getLanguages() as $language) {
+          $tab->name[$language['id_lang']] = $this->l('Vincular categorias');
+      }
+      $tab->id_parent = $parentTab->id;
+      $tab->module = $this->name;
+      $tab->add();
+
+
+      //Sub menu code
+
+      $parentTabID = Tab::getIdFromClassName('AdminObuma');
+      $parentTab = new Tab($parentTabID);
+
+      $tab = new Tab();
+      $tab->active = 1;
+      $tab->class_name = "AdminLogSincronizacion";
+      $tab->name = array();
+      foreach (Language::getLanguages() as $language) {
+          $tab->name[$language['id_lang']] = $this->l('Log de sincronizaci&oacute;n');
+      }
+      $tab->id_parent = $parentTab->id;
+      $tab->module = $this->name;
+      $tab->add();
+
+    //Sub menu code
 
       $parentTabID = Tab::getIdFromClassName('AdminObuma');
       $parentTab = new Tab($parentTabID);
@@ -408,22 +452,22 @@ class Obuma extends Module{
       $tab->module = $this->name;
       $tab->add();
 
-
-//Sub menu code
+      //Sub menu code
 
       $parentTabID = Tab::getIdFromClassName('AdminObuma');
       $parentTab = new Tab($parentTabID);
 
       $tab = new Tab();
       $tab->active = 1;
-      $tab->class_name = "AdminVincularCategorias";
+      $tab->class_name = "AdminLogWebhook";
       $tab->name = array();
       foreach (Language::getLanguages() as $language) {
-          $tab->name[$language['id_lang']] = $this->l('Vincular categorias');
+          $tab->name[$language['id_lang']] = $this->l('Log de webhook');
       }
       $tab->id_parent = $parentTab->id;
       $tab->module = $this->name;
       $tab->add();
+
 
         return true;
     }

@@ -38,6 +38,11 @@ class AdminConfiguracionController extends ModuleAdminController{
             $registrar_cobro = Tools::getValue("registrar_cobro");
 
             $tipo_documento = json_encode(Tools::getValue("tipo_documento"));
+            $nota_venta_segundo_plano = Tools::getValue("nota_venta_segundo_plano");
+            $enviar_ventas_obuma = Tools::getValue("enviar_ventas_obuma");
+            $cambiar_a_completado = Tools::getValue("cambiar_a_completado");
+            $sincronizar_precio = Tools::getValue("sincronizar_precio");
+            $update_limpiar_registros_date = Tools::getValue("update_limpiar_registros_date");
 
             Configuration::updateValue("rut_empresa",$rut_empresa);
             Configuration::updateValue("bodega",$bodega);
@@ -54,7 +59,11 @@ class AdminConfiguracionController extends ModuleAdminController{
             Configuration::updateValue("enviar_email_cliente",$enviar_email_cliente);
             Configuration::updateValue("registrar_cobro",$registrar_cobro);
             Configuration::updateValue("tipo_documento",$tipo_documento);
-
+            Configuration::deleteByName("nota_venta_segundo_plano",$nota_venta_segundo_plano);
+            Configuration::deleteByName("enviar_ventas_obuma",$enviar_ventas_obuma);
+            Configuration::deleteByName("cambiar_a_completado",$cambiar_a_completado); 
+            Configuration::deleteByName("sincronizar_precio",$sincronizar_precio);
+            Configuration::deleteByName("update_limpiar_registros_date",$update_limpiar_registros_date);
 
             $this->context->smarty->assign("save",true);         
 
@@ -77,6 +86,11 @@ class AdminConfiguracionController extends ModuleAdminController{
         $enviar_email_cliente_text = Configuration::get("enviar_email_cliente");
         $registrar_cobro_text = Configuration::get("registrar_cobro");
         $tipo_documento_text = Configuration::get("tipo_documento");
+        $nota_venta_segundo_plano_text = Configuration::get("nota_venta_segundo_plano");
+        $enviar_ventas_obuma_text = Configuration::get("enviar_ventas_obuma");
+        $cambiar_a_completado_text = Configuration::get("cambiar_a_completado");
+        $sincronizar_precio_text = Configuration::get("sincronizar_precio");
+        $update_limpiar_registros_date_text = Configuration::get("update_limpiar_registros_date");
 
         $this->context->smarty->assign("rut_empresa",$rut_empresa_text);
         $this->context->smarty->assign("bodega",$bodega_text);
@@ -93,6 +107,11 @@ class AdminConfiguracionController extends ModuleAdminController{
         $this->context->smarty->assign("enviar_email_cliente",$enviar_email_cliente_text);
         $this->context->smarty->assign("registrar_cobro",$registrar_cobro_text);
         $this->context->smarty->assign("tipo_documento",$tipo_documento_text);
+        $this->context->smarty->assign("nota_venta_segundo_plano",$nota_venta_segundo_plano_text);
+        $this->context->smarty->assign("enviar_ventas_obuma",$enviar_ventas_obuma_text);
+        $this->context->smarty->assign("cambiar_a_completado",$cambiar_a_completado_text);
+        $this->context->smarty->assign("sincronizar_precio",$sincronizar_precio_text);
+        $this->context->smarty->assign("update_limpiar_registros_date",$update_limpiar_registros_date_text);
 
         //return $this->display(__FILE__,"views/templates/admin/configuracion/configuracion.tpl");
     }

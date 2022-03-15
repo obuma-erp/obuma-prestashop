@@ -45,6 +45,13 @@
      </th>
      </tr>
 
+    <tr>
+         <th><label for="exampleUrl">API URL</label></th>
+         <th><input type="text" name="api_url" id="api_url" value="{$api_url}" class="form-control"  aria-describedby="urlHelp" placeholder="Introduce API KEY" required>
+         <small id="urlHelp" class="form-text text-muted">  URL para conectarse a la API de Obuma - ej. https://api.obuma.cl/v1.0 </small>
+     </th>
+     </tr>
+
      <tr>
           <th><label for="exampleUrl">SUCURSAL</label></th>
          <th> <input type="text" name="sucursal" id="sucursal" value="{$sucursal}" class="form-control"  aria-describedby="urlHelp" placeholder="Introduce sucursal a usar">
@@ -75,6 +82,15 @@
         <small id="urlHelp" class="form-text text-muted">Usuario desea vincular a las ventas</small>
          </th>
      </tr>
+
+
+      <tr>
+         <th><label for="exampleUrl">CANAL VENTA</label></th>
+         <th> <input type="text" name="canal_venta" id="canal_venta" value="{$canal_venta}" class="form-control"  aria-describedby="urlHelp" placeholder="Introduce el canal de venta">
+            <small id="urlHelp" class="form-text text-muted">Código del canal de venta que desea vincular a las ventas</small>
+         </th>
+     </tr>
+
 
      <tr>
          <th><label for="exampleUrl">LISTA PRECIO</label></th>
@@ -141,6 +157,73 @@
                 <br>
                 <small id="urlHelp" class="form-text text-muted">&nbsp;</small>
             </th>
+     </tr>
+
+
+      <tr>
+         <th><label>EMISION DE NOTA DE VENTA EN SEGUNDO PLANO</label></th>
+         <th>
+         <input type="radio" required value="0" name="nota_venta_segundo_plano"  {if $nota_venta_segundo_plano == 0}  checked {/if}> No
+                <input type="radio" required  name="nota_venta_segundo_plano"   value="1" {if $nota_venta_segundo_plano == 1}  checked {/if}> Si
+
+                <input type="radio" required  name="nota_venta_segundo_plano"  {if $nota_venta_segundo_plano == 2}  checked {/if}> Solo si es Factura
+                <br>
+            </th>
+     </tr>
+
+      <tr>
+         <th><label>ENVIAR VENTAS A OBUMA</label></th>
+         <th>
+            <input type="radio" value="0" name="enviar_ventas_obuma"  id="enviar_ventas_obuma" {if $enviar_ventas_obuma == 0}  checked {/if}> No 
+                <input type="radio" name="enviar_ventas_obuma" id="enviar_ventas_obuma" value="1" {if $enviar_ventas_obuma == 1}  checked {/if}> Si 
+                <br>
+                <small id="urlHelp" class="form-text text-muted">Permite enviar a OBUMA las ordenes que fueron completadas</small>
+        </th>
+     </tr>
+
+     <tr>
+         <th><label>ENVIAR A OBUMA AUTOMÁTICAMENTE</label></th>
+         <th>
+            <input type="radio" value="0" name="cambiar_a_completado" id="cambiar_a_completado" {if $cambiar_a_completado == 0}  checked {/if}> No 
+                <input type="radio" name="cambiar_a_completado" id="cambiar_a_completado" value="1" {if $cambiar_a_completado == 1}  checked {/if}> Si 
+                <br>
+                <small id="urlHelp" class="form-text text-muted">Permite cambiar el estado del pedido a "COMPLETADO" despu&eacute;s de  realizar un pago, para ser enviado automaticamente a OBUMA</small>
+        </th>
+     </tr>
+
+     <tr>
+         <th><label>PRECIO A COPIAR DESDE OBUMA</label></th>
+         <th>
+            <input type="radio" value="0" name="sincronizar_precio" id="sincronizar_precio" {if $sincronizar_precio == 0}  checked {/if}> No 
+                <input type="radio" name="sincronizar_precio" id="sincronizar_precio" value="1" {if $sincronizar_precio == 1}  checked {/if}> Si 
+                <br>
+                <small id="urlHelp" class="form-text text-muted">Permite seleccionar si se trae el precio bruto o el precio neto de los productos de OBUMA</small>
+        </th>
+     </tr>
+
+
+     <tr>
+         <th><label>LIMPIAR REGISTROS ANTIGUOS</label></th>
+         <th>
+                <button type="button" id="limpiar_registros" class="btn btn-info">Iniciar limpieza</button>
+                <span id="update_limpiar_registros_message">
+                    {if $update_limpiar_registros_date != ""}
+                     Ultima Limpieza
+                  
+                    {else}
+
+                    {/if}
+                    
+                </span> 
+
+
+                
+                   <strong  id="update_limpiar_registros"> {$update_limpiar_registros_date}</strong>
+
+                   <br>
+                <small id="urlHelp" class="form-text text-muted">Permite limpiar los registros antiguos generados por el plugin Obuma Sync</small>
+                
+        </th>
      </tr>
  </table>
         
