@@ -430,7 +430,7 @@ class Obuma extends Module{
       $tab->class_name = "AdminLogSincronizacion";
       $tab->name = array();
       foreach (Language::getLanguages() as $language) {
-          $tab->name[$language['id_lang']] = $this->l('Log de sincronizaci&oacute;n');
+          $tab->name[$language['id_lang']] = $this->l('Log de sincronizacion');
       }
       $tab->id_parent = $parentTab->id;
       $tab->module = $this->name;
