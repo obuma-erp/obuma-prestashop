@@ -51,10 +51,10 @@ class AdminVincularCategoriasController extends ModuleAdminController{
             for ($i=0; $i < count($id_category) ; $i++) { 
  				$category = $this->verificar_id_categoria_vinculada($id_category[$i]);
  				if(count($category) == 1){
- 					$sql = "UPDATE " . _DB_PREFIX_."vincular_categorias_obuma SET name_category='".$name_category[$i]."',obuma_id_category='".$obuma_id_category[$i]."' WHERE id_category='".$category[0]['id_category']."'";
+ 					$sql = "UPDATE " . _DB_PREFIX_."obuma_vincular_categorias SET name_category='".$name_category[$i]."',obuma_id_category='".$obuma_id_category[$i]."' WHERE id_category='".$category[0]['id_category']."'";
 
  				}else{
- 					$sql = "INSERT INTO " . _DB_PREFIX_."vincular_categorias_obuma (id_category,name_category,obuma_id_category) VALUES ('".$id_category[$i]."','".$name_category[$i]."','".$obuma_id_category[$i]."')";
+ 					$sql = "INSERT INTO " . _DB_PREFIX_."obuma_vincular_categorias (id_category,name_category,obuma_id_category) VALUES ('".$id_category[$i]."','".$name_category[$i]."','".$obuma_id_category[$i]."')";
 
 					
  				}
@@ -70,7 +70,7 @@ class AdminVincularCategoriasController extends ModuleAdminController{
 	}
 
 	public function verificar_id_categoria_vinculada($id_category){
-		$sql = "SELECT * FROM ". _DB_PREFIX_."vincular_categorias_obuma WHERE id_category='".$id_category."'";
+		$sql = "SELECT * FROM ". _DB_PREFIX_."obuma_vincular_categorias WHERE id_category='".$id_category."'";
 
 		$result = Db::getInstance()->executeS($sql);
 
@@ -83,13 +83,14 @@ class AdminVincularCategoriasController extends ModuleAdminController{
 		$data = array();
 		$categories = Category::getAllCategoriesName();
 
+		
 		foreach ($categories as $key => $cat) {
-			$sql = "SELECT * FROM ". _DB_PREFIX_."vincular_categorias_obuma WHERE id_category='".$cat["id_category"]."' AND obuma_id_category > 0";
+			$sql = "SELECT * FROM ". _DB_PREFIX_."obuma_vincular_categorias WHERE id_category='".$cat["id_category"]."' AND obuma_id_category > 0";
 
 			$result = Db::getInstance()->executeS($sql);
 			if (count($result) == 1) {
 				$data[$key]["id_category"] = $cat["id_category"];
-				$data[$key]["name_category"] = $cat["name_category"];
+				$data[$key]["name_category"] = $cat["name"];
 				$data[$key]["obuma_id_category"] = $result[0]["obuma_id_category"];
 			}
 		}

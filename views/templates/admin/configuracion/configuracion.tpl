@@ -194,8 +194,8 @@
      <tr>
          <th><label>PRECIO A COPIAR DESDE OBUMA</label></th>
          <th>
-            <input type="radio" value="0" name="sincronizar_precio" id="sincronizar_precio" {if $sincronizar_precio == 0}  checked {/if}> No 
-                <input type="radio" name="sincronizar_precio" id="sincronizar_precio" value="1" {if $sincronizar_precio == 1}  checked {/if}> Si 
+            <input type="radio" value="0" name="sincronizar_precio" id="sincronizar_precio" {if $sincronizar_precio == 0}  checked {/if}> Bruto 
+                <input type="radio" name="sincronizar_precio" id="sincronizar_precio" value="1" {if $sincronizar_precio == 1}  checked {/if}> Neto 
                 <br>
                 <small id="urlHelp" class="form-text text-muted">Permite seleccionar si se trae el precio bruto o el precio neto de los productos de OBUMA</small>
         </th>

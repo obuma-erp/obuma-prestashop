@@ -37,6 +37,7 @@ class Obuma extends Module{
             !Configuration::updateValue("sucursal","") || 
             !Configuration::updateValue("vendedor","") || 
             !Configuration::updateValue("usuario","") || 
+            !Configuration::updateValue("canal_venta","") || 
             !Configuration::updateValue("lista_precio","") || 
             !Configuration::updateValue("codigo_forma_pago","") || 
             !Configuration::updateValue("rebajar_stock",0) || 
@@ -83,6 +84,7 @@ class Obuma extends Module{
            !Configuration::deleteByName("sucursal") || 
            !Configuration::deleteByName("vendedor") ||
            !Configuration::deleteByName("usuario") || 
+           !Configuration::deleteByName("canal_venta") || 
            !Configuration::deleteByName("lista_precio") || 
            !Configuration::deleteByName("codigo_forma_pago") || 
            !Configuration::deleteByName("rebajar_stock") || 

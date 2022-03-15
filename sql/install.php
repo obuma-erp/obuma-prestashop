@@ -43,8 +43,8 @@ $sql = array();
        PRIMARY KEY (`id`))";
 
 
-    $table_order_obuma = _DB_PREFIX_ . 'order_obuma';
-     $sql[] = "CREATE TABLE IF NOT EXISTS $table_order_obuma (
+    $table_obuma_order = _DB_PREFIX_ . 'obuma_order';
+     $sql[] = "CREATE TABLE IF NOT EXISTS $table_obuma_order (
       `id` int(11) NOT NULL AUTO_INCREMENT,
        `order_id` int(11)  NOT NULL,
       `dte_id` int(11)  NOT NULL,
@@ -59,16 +59,16 @@ $sql = array();
     
 
 
-    $table_categorias_obuma = _DB_PREFIX_ . 'vincular_categorias_obuma';
-     $sql[] = "CREATE TABLE IF NOT EXISTS $table_categorias_obuma (
+    $table_obuma_vincular_categorias = _DB_PREFIX_ . 'obuma_vincular_categorias';
+     $sql[] = "CREATE TABLE IF NOT EXISTS $table_obuma_vincular_categorias (
       `id` int(11) NOT NULL AUTO_INCREMENT,
        `id_category` int(11)  NOT NULL,
       `name_category` text  NOT NULL,
        `obuma_id_category` int(11)  NOT NULL,
        PRIMARY KEY (`id`))";
 
-      $table_order_obuma_customer = _DB_PREFIX_ . 'order_obuma_customer';
-     $sql[] = "CREATE TABLE IF NOT EXISTS $table_order_obuma_customer (
+      $table_obuma_order_customer = _DB_PREFIX_ . 'obuma_order_customer';
+     $sql[] = "CREATE TABLE IF NOT EXISTS $table_obuma_order_customer (
       `id` int(11) NOT NULL AUTO_INCREMENT,
        `id_order` int(11) NOT NULL,
       `id_customer` int(11) NOT NULL,

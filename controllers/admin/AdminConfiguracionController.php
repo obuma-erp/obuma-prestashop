@@ -26,10 +26,11 @@ class AdminConfiguracionController extends ModuleAdminController{
             $bodega = Tools::getValue("bodega");
             $id_bodega = Tools::getValue("id_bodega");
             $api_key = Tools::getValue("api_key");
-            $api_key = Tools::getValue("api_url");
+            $api_url = Tools::getValue("api_url");
             $sucursal = Tools::getValue("sucursal");
             $vendedor = Tools::getValue("vendedor");
             $usuario = Tools::getValue("usuario");
+            $canal_venta = Tools::getValue("canal_venta");
             $lista_precio = Tools::getValue("lista_precio");
             $codigo_forma_pago = Tools::getValue("codigo_forma_pago");
             $rebajar_stock = Tools::getValue("rebajar_stock");
@@ -53,6 +54,7 @@ class AdminConfiguracionController extends ModuleAdminController{
             Configuration::updateValue("sucursal",$sucursal);
             Configuration::updateValue("vendedor",$vendedor);
             Configuration::updateValue("usuario",$usuario);
+            Configuration::updateValue("canal_venta",$canal_venta);
             Configuration::updateValue("lista_precio",$lista_precio);
             Configuration::updateValue("codigo_forma_pago",$codigo_forma_pago);
             Configuration::updateValue("rebajar_stock",$rebajar_stock);
@@ -81,6 +83,7 @@ class AdminConfiguracionController extends ModuleAdminController{
         $sucursal_text = Configuration::get("sucursal");
         $vendedor_text = Configuration::get("vendedor");
         $usuario_text = Configuration::get("usuario");
+        $canal_venta_text = Configuration::get("canal_venta");
         $lista_precio_text = Configuration::get("lista_precio");
         $codigo_forma_pago_text = Configuration::get("codigo_forma_pago");
         $rebajar_stock_text = Configuration::get("rebajar_stock");
@@ -103,6 +106,7 @@ class AdminConfiguracionController extends ModuleAdminController{
         $this->context->smarty->assign("sucursal",$sucursal_text);
         $this->context->smarty->assign("vendedor",$vendedor_text);
         $this->context->smarty->assign("usuario",$usuario_text);
+        $this->context->smarty->assign("canal_venta",$canal_venta_text);
         $this->context->smarty->assign("lista_precio",$lista_precio_text);
         $this->context->smarty->assign("codigo_forma_pago",$codigo_forma_pago_text);
         $this->context->smarty->assign("rebajar_stock",$rebajar_stock_text);

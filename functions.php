@@ -183,7 +183,7 @@ function obtener_numero_pagina($pagina){
 
 function verificar_categoria_vinculada($id_categoria_obuma){
     $result = false;
-    $categoria_vinculada = Db::getInstance()->executeS("SELECT c.id_category,vco.obuma_id_category FROM "._DB_PREFIX_."category c INNER JOIN "._DB_PREFIX_."category_lang cl ON c.id_category=cl.id_category INNER JOIN "._DB_PREFIX_."vincular_categorias_obuma vco ON c.id_category=vco.id_category WHERE vco.obuma_id_category='".$id_categoria_obuma."' AND vco.obuma_id_category > 0 LIMIT 1");
+    $categoria_vinculada = Db::getInstance()->executeS("SELECT c.id_category,vco.obuma_id_category FROM "._DB_PREFIX_."category c INNER JOIN "._DB_PREFIX_."category_lang cl ON c.id_category=cl.id_category INNER JOIN "._DB_PREFIX_."obuma_vincular_categorias vco ON c.id_category=vco.id_category WHERE vco.obuma_id_category='".$id_categoria_obuma."' AND vco.obuma_id_category > 0 LIMIT 1");
 
     if(count($categoria_vinculada) == 1){
         $result = $categoria_vinculada;
@@ -256,6 +256,15 @@ function update_id_cliente_obuma($id_cliente,$id_cliente_obuma,$cliente_rut){
 
 }
 
+function create_log_synchronization($data){
+
+    $fecha = date("Y-m-d");
+    $hora = date("H:i:s");
+     $query_create_log_synchronization = "INSERT INTO "._DB_PREFIX_."obuma_log_synchronization SET fecha='".$fecha."',hora='".$hora."',tipo='".$data["tipo"]."',opcion='".$data["opcion"]."',resultado='".$data["resultado"]."'";
+    
+    return Db::getInstance()->execute($query_create_log_synchronization);
+
+}
 
 function obtener_id_product($sku){
     $result = false;

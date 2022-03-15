@@ -28,6 +28,16 @@ $cantidad_paginas = $json["data-total-pages"];
 
 $default_lang = Configuration::get('PS_LANG_DEFAULT');
 
+
+//Variables log de sincronizacion:
+
+$log_synchronization_type = "Products";
+$log_synchronization_option = "All categories";
+if(isset($_POST["categorias_seleccionadas"])){
+	$log_synchronization_option = $_POST['categorias_seleccionadas'] == "all" ? "All categories" : $_POST['categorias_seleccionadas'];
+}
+
+
 if($cantidad_paginas > 0){
 	foreach ($data_productos as $key => $data) {
 		$producto_id = $data["producto_id"];
@@ -130,6 +140,18 @@ $log[$indice_log]["error"] = $error;
 $indice_log++;
 
 $result = array("completado" => $pagina,"total" => $cantidad_paginas,"resumen" => $resumen,"log" => $log);
+
+
+if($cantidad_paginas > 0 && $pagina == $cantidad_paginas){
+
+	$log_synchronization_result = "Completed";
+
+	$data_log = array("tipo" => $log_synchronization_type,"opcion" => $log_synchronization_option,"resultado" => $log_synchronization_result);
+	create_log_synchronization($data_log);
+
+}
+
+
 echo json_encode($result);
 			
 
