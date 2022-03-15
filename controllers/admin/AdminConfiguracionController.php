@@ -26,6 +26,7 @@ class AdminConfiguracionController extends ModuleAdminController{
             $bodega = Tools::getValue("bodega");
             $id_bodega = Tools::getValue("id_bodega");
             $api_key = Tools::getValue("api_key");
+            $api_key = Tools::getValue("api_url");
             $sucursal = Tools::getValue("sucursal");
             $vendedor = Tools::getValue("vendedor");
             $usuario = Tools::getValue("usuario");
@@ -48,6 +49,7 @@ class AdminConfiguracionController extends ModuleAdminController{
             Configuration::updateValue("bodega",$bodega);
             Configuration::updateValue("id_bodega",$id_bodega);
             Configuration::updateValue("api_key",$api_key);
+            Configuration::updateValue("api_url",$api_url);
             Configuration::updateValue("sucursal",$sucursal);
             Configuration::updateValue("vendedor",$vendedor);
             Configuration::updateValue("usuario",$usuario);
@@ -59,11 +61,11 @@ class AdminConfiguracionController extends ModuleAdminController{
             Configuration::updateValue("enviar_email_cliente",$enviar_email_cliente);
             Configuration::updateValue("registrar_cobro",$registrar_cobro);
             Configuration::updateValue("tipo_documento",$tipo_documento);
-            Configuration::deleteByName("nota_venta_segundo_plano",$nota_venta_segundo_plano);
-            Configuration::deleteByName("enviar_ventas_obuma",$enviar_ventas_obuma);
-            Configuration::deleteByName("cambiar_a_completado",$cambiar_a_completado); 
-            Configuration::deleteByName("sincronizar_precio",$sincronizar_precio);
-            Configuration::deleteByName("update_limpiar_registros_date",$update_limpiar_registros_date);
+            Configuration::updateValue("nota_venta_segundo_plano",$nota_venta_segundo_plano);
+            Configuration::updateValue("enviar_ventas_obuma",$enviar_ventas_obuma);
+            Configuration::updateValue("cambiar_a_completado",$cambiar_a_completado); 
+            Configuration::updateValue("sincronizar_precio",$sincronizar_precio);
+            Configuration::updateValue("update_limpiar_registros_date",$update_limpiar_registros_date);
 
             $this->context->smarty->assign("save",true);         
 
@@ -75,6 +77,7 @@ class AdminConfiguracionController extends ModuleAdminController{
         $bodega_text = Configuration::get("bodega");
         $id_bodega_text = Configuration::get("id_bodega");
         $api_key_text = Configuration::get("api_key");
+        $api_url_text = Configuration::get("api_url");
         $sucursal_text = Configuration::get("sucursal");
         $vendedor_text = Configuration::get("vendedor");
         $usuario_text = Configuration::get("usuario");
@@ -96,6 +99,7 @@ class AdminConfiguracionController extends ModuleAdminController{
         $this->context->smarty->assign("bodega",$bodega_text);
         $this->context->smarty->assign("id_bodega",$id_bodega_text);
         $this->context->smarty->assign("api_key",$api_key_text);
+        $this->context->smarty->assign("api_url",$api_url_text);
         $this->context->smarty->assign("sucursal",$sucursal_text);
         $this->context->smarty->assign("vendedor",$vendedor_text);
         $this->context->smarty->assign("usuario",$usuario_text);

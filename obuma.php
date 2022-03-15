@@ -33,6 +33,7 @@ class Obuma extends Module{
             !Configuration::updateValue("bodega","") || 
             !Configuration::updateValue("id_bodega","") || 
             !Configuration::updateValue("api_key","") || 
+            !Configuration::updateValue("api_url","") || 
             !Configuration::updateValue("sucursal","") || 
             !Configuration::updateValue("vendedor","") || 
             !Configuration::updateValue("usuario","") || 
@@ -78,6 +79,7 @@ class Obuma extends Module{
            !Configuration::deleteByName("bodega") ||
            !Configuration::deleteByName("id_bodega") ||
            !Configuration::deleteByName("api_key") ||
+           !Configuration::deleteByName("api_url") ||
            !Configuration::deleteByName("sucursal") || 
            !Configuration::deleteByName("vendedor") ||
            !Configuration::deleteByName("usuario") || 
