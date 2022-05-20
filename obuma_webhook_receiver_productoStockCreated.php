@@ -41,20 +41,8 @@ require_once "functions.php";
 
 	$items = $data['items'];
 
-	
-
-		
-
-
-
-
-
-
 	echo '<br>eventId : '.$eventId;
 	echo '<br>eventType : '.$eventType;
-
-
-
 
 // Filter out the events we're not interested in
 	/*
@@ -102,18 +90,46 @@ require_once "functions.php";
 			$pro = verificar_producto($producto_codigo_comercial);
 
 			if($pro != false){
-				try {
 
-					if(StockAvailable::updateQuantity((int)$pro[0]['id_product'], 0, $pi_saldo)){
-						print_r("Stock Actualizado a :" . $pi_saldo);
+				if(validar_proveedor($producto_codigo_comercial)){
+
+					try {
+
+						if(StockAvailable::updateQuantity((int)$pro[0]['id_product'], 0, $pi_saldo)){
+							$result["message"] = "success";
+							$result["sku"] = $producto_codigo_comercial;
+						}
+
+					} catch (Exception $e) {
+						$result["message"] = $e->getMessage();
+						$result["code"] = $e->getCode();
+						$result["file"] = $e->getFile();
+						$result["sku"] = $producto_codigo_comercial;
+						
 					}
-				} catch (Exception $e) {
-					print_r($e->_toString());
-					
+
+				}else{
+
+					$data_log = array("tipo" => "Actualizar stock","peticion" => json_encode($requestBody, JSON_PRETTY_PRINT), "resultado" => "Error : El stock del producto ".$producto_codigo_comercial . " no se puede modificar, revise a que proveedor pertenece");
+	
+					create_log_obuma($data_log,"webhook");
+					exit();
 
 				}
+				
+			}else{
+
+				$data_log = array("tipo" => "Actualizar stock","peticion" => json_encode($requestBody, JSON_PRETTY_PRINT), "resultado" => "Error : El SKU no fue encontrado en Prestashop");
+	
+				create_log_obuma($data_log,"webhook");
+				exit();
 			}
 		}
 		}
 	}
+
+$data_log = array("tipo" => "Actualizar stock","peticion" => json_encode($requestBody, JSON_PRETTY_PRINT), "resultado" => json_encode($result, JSON_PRETTY_PRINT));
+	
+create_log_obuma($data_log,"webhook");
+
 ?>

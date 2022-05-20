@@ -439,4 +439,33 @@ $(document).ready(function(){
        return true;
 
   }
+
+
+  if(document.getElementById("limpiar_registros")){
+  document.getElementById("limpiar_registros").addEventListener("click",function(){
+  this.setAttribute("disabled","disabled")
+
+    fetch(baseDir+"modules/obuma/limpiar_registros.php", {
+      method: 'get'
+    }).then(function(response) {
+      return response.json();
+    }).then(function(response) {
+
+
+      if(response.result == "true"){
+        document.getElementById("update_limpiar_registros_message").innerText = "Ultima Limpieza : "
+        document.getElementById("update_limpiar_registros").innerText = response.date
+        document.getElementById("limpiar_registros").removeAttribute("disabled")
+      }
+      
+      
+      
+
+    }).catch(function(err) {
+      console.log(err);
+    });
+
+    
+  })
+}
 });

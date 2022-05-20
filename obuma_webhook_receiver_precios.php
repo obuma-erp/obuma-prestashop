@@ -84,21 +84,54 @@ require_once "functions.php";
 		$producto_precio_clp_iva = $data["producto_precio_clp_iva"];
 		$producto_precio_clp_total = $data["producto_precio_clp_total"];
 
+		$result = [];
 
 		if(isset($producto_codigo_comercial ) && !empty(trim($producto_codigo_comercial)) && isset($producto_nombre) &&  !empty(trim($producto_nombre))){
 			$pro = verificar_producto($producto_codigo_comercial);
 			if($pro != false){
+
+
+				$precio_aplicar = $producto_precio_clp_total;
+
+				if(Configuration::get("sincronizar_precio") == 1){
+					$precio_aplicar = $producto_precio_clp_neto;
+				}
+
+
 				try {
 					// Actualizar el precio del Producto
 					$product = new Product((int)$pro[0]['id_product']);
-					$product->price = $producto_precio_clp_neto;
+					$product->price = $precio_aplicar;
 					//actualizar_precio($producto_codigo_comercial,$producto_precio_clp_total);
 					$product->update();
 
+					$result["message"] = "success";
+					$result["sku"] = $producto_codigo_comercial;
+					
+
 				}catch(Exception $e){
-					print_r($e->getMessage());
+
+					$result["message"] = $e->getMessage();
+					$result["code"] = $e->getCode();
+					$result["file"] = $e->getFile();
+					$result["sku"] = $producto_codigo_comercial;
+
 				}
+			}else{
+				$data_log = array("tipo" => "Actualizar precio","peticion" => json_encode($requestBody, JSON_PRETTY_PRINT), "resultado" => "Error : El SKU no fue encontrado en Prestashop");
+	
+				create_log_obuma($data_log,"webhook");
+				exit();
 			}
+		}else{
+			$data_log = array("tipo" => "Actualizar precio","peticion" => json_encode($requestBody, JSON_PRETTY_PRINT), "resultado" => "Error : El SKU o el nombre del producto no es valido");
+	
+			create_log_obuma($data_log,"webhook");
+			exit();
 		}
 	}
+
+$data_log = array("tipo" => "Actualizar precio","peticion" => json_encode($requestBody, JSON_PRETTY_PRINT), "resultado" => json_encode($result, JSON_PRETTY_PRINT));
+	
+create_log_obuma($data_log,"webhook");
 ?>

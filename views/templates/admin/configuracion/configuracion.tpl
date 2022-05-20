@@ -5,6 +5,12 @@
 	}
 </style>
 
+{if $check_version}
+    <div class='alert alert-warning' >
+    Hay una nueva versi&oacute;n disponible del modulo Obuma Sync !  <a target='__blank'  style='background-color:#bb4827;padding:5px;color:white;text-decoration:none;'href='https://github.com/obuma-erp/obuma-prestashop'>Obtener la nueva versi&oacute;n</a>
+    </div>
+{/if}
+
 
 
 <div class="panel panel-info">
@@ -47,7 +53,7 @@
 
     <tr>
          <th><label for="exampleUrl">API URL</label></th>
-         <th><input type="text" name="api_url" id="api_url" value="{$api_url}" class="form-control"  aria-describedby="urlHelp" placeholder="Introduce API KEY" required>
+         <th><input type="text" name="api_url" id="api_url" value="{$api_url}" class="form-control"  aria-describedby="urlHelp" placeholder="Introduce API URL" required>
          <small id="urlHelp" class="form-text text-muted">  URL para conectarse a la API de Obuma - ej. https://api.obuma.cl/v1.0 </small>
      </th>
      </tr>
@@ -177,19 +183,23 @@
             <input type="radio" value="0" name="enviar_ventas_obuma"  id="enviar_ventas_obuma" {if $enviar_ventas_obuma == 0}  checked {/if}> No 
                 <input type="radio" name="enviar_ventas_obuma" id="enviar_ventas_obuma" value="1" {if $enviar_ventas_obuma == 1}  checked {/if}> Si 
                 <br>
-                <small id="urlHelp" class="form-text text-muted">Permite enviar a OBUMA las ordenes que fueron completadas</small>
+                <small id="urlHelp" class="form-text text-muted">Habilita la funcionalidad de enviar ventas a OBUMA, mediante el estado seleccionado</small>
         </th>
      </tr>
 
+
      <tr>
-         <th><label>ENVIAR A OBUMA AUTOMÁTICAMENTE</label></th>
+         <th><label>ESTADO PARA ENVIAR A OBUMA</label></th>
          <th>
-            <input type="radio" value="0" name="cambiar_a_completado" id="cambiar_a_completado" {if $cambiar_a_completado == 0}  checked {/if}> No 
-                <input type="radio" name="cambiar_a_completado" id="cambiar_a_completado" value="1" {if $cambiar_a_completado == 1}  checked {/if}> Si 
-                <br>
-                <small id="urlHelp" class="form-text text-muted">Permite cambiar el estado del pedido a "COMPLETADO" despu&eacute;s de  realizar un pago, para ser enviado automaticamente a OBUMA</small>
+            <select name="estado_enviar_obuma">
+                <option  value="0">Seleccionar</option>
+                {foreach key=cid item=estado from=$estados}
+                    <option {if $estado["id_order_state"] eq $estado_enviar_obuma} selected {/if} value="{$estado["id_order_state"]}">{$estado["name"]}</option>
+                {/foreach}
+            </select>
         </th>
      </tr>
+
 
      <tr>
          <th><label>PRECIO A COPIAR DESDE OBUMA</label></th>
@@ -197,10 +207,29 @@
             <input type="radio" value="0" name="sincronizar_precio" id="sincronizar_precio" {if $sincronizar_precio == 0}  checked {/if}> Bruto 
                 <input type="radio" name="sincronizar_precio" id="sincronizar_precio" value="1" {if $sincronizar_precio == 1}  checked {/if}> Neto 
                 <br>
-                <small id="urlHelp" class="form-text text-muted">Permite seleccionar si se trae el precio bruto o el precio neto de los productos de OBUMA</small>
+                <small id="urlHelp" class="form-text text-muted">Permite seleccionar el precio a traer desde OBUMA (Bruto o Neto)</small>
         </th>
      </tr>
 
+
+     <tr>
+         <th><label>SINCRONIZAR CLIENTES POR </label></th>
+         <th>
+            <input type="radio" value="0" name="sincronizar_cliente_por" id="sincronizar_cliente_por" {if $sincronizar_cliente_por == 0}  checked {/if}> Rut del cliente
+                <input type="radio" name="sincronizar_cliente_por" id="sincronizar_cliente_por" value="1" {if $sincronizar_cliente_por == 1}  checked {/if}> Email del cliente 
+                <br>
+                <small id="urlHelp" class="form-text text-muted">Permite seleccionar mediante qué opción se realizar&aacute; la comparaci&oacute;n de clientes entre Prestashop y OBUMA</small>
+        </th>
+     </tr>
+
+     <tr>
+         <th><label>ACTUALIZAR STOCK EN</label></th>
+         <th>
+            <input type="text" name="proveedores_actualizar_stock" id="proveedores_actualizar_stock" value="{$proveedores_actualizar_stock}" class="form-control"  aria-describedby="urlHelp" placeholder="Introduce los ID de los proveedores">
+                <br>
+                <small id="urlHelp" class="form-text text-muted">Permite definir solo en qu&eacute; proveedores se actualizar&aacute; el stock de los productos</small>
+        </th>
+     </tr>
 
      <tr>
          <th><label>LIMPIAR REGISTROS ANTIGUOS</label></th>
@@ -227,6 +256,7 @@
      </tr>
  </table>
         
+     
               
      <button type="submit" name="enviar_datos" id="enviar_datos" class="btn btn-primary">Guardar </button>
 </form>
@@ -252,4 +282,8 @@
             requiredCheckboxes.attr('required','required');
         }
     });
+
+
+
+    
     </script>

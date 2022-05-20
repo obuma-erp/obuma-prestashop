@@ -1,3 +1,9 @@
+{if $check_version}
+	<div class='alert alert-warning' >
+	Hay una nueva versi&oacute;n disponible del modulo Obuma Sync !  <a target='__blank'  style='background-color:#bb4827;padding:5px;color:white;text-decoration:none;'href='https://github.com/obuma-erp/obuma-prestashop'>Obtener la nueva versi&oacute;n</a>
+	</div>
+{/if}
+
 
 {if isset($save)}
 {if $save}

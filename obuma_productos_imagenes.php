@@ -7,8 +7,7 @@ require_once "functions.php";
 $cantidad_paginas = 0;
 $pro = array();
 
-$url_imagenes_producto = "http://api.obuma.cl/v1.0/productosImagenes.findByProductoId.json";
-$url_copiar_imagenes = "https://www.obuma.cl/mydata/imagenes_productos";
+$url_imagenes_producto = set_url()."productosImagenes.findByProductoId.json";
 
 $pagina = obtener_numero_pagina($_POST["pagina"]);
 
@@ -28,6 +27,9 @@ $pagina = obtener_numero_pagina($_POST["pagina"]);
 		$pro = Db::getInstance()->executeS("SELECT * FROM "._DB_PREFIX_."category_product cp INNER JOIN "._DB_PREFIX_."product p  ON cp.id_product=p.id_product WHERE cp.id_category='".$id_categoria."' LIMIT $inicio,100");
 			$cantidad_paginas = count($pro);
 			$cantidad_paginas = ceil($cantidad_paginas/100);
+
+
+		
 	}
 
 
@@ -44,6 +46,17 @@ $result = array();
 
 $json2 = [];
 
+
+//Variables log de sincronizacion:
+
+$log_synchronization_type = "Product images";
+$log_synchronization_option = "All categories";
+if(isset($_POST["categorias_seleccionadas"])){
+	$log_synchronization_option = $_POST['categorias_seleccionadas'] == "all" ? "All categories" : $_POST['categorias_seleccionadas'];
+}
+
+
+
 		if($cantidad_paginas > 0){
 			foreach ($pro as $key => $data) {
 			try {
@@ -52,8 +65,15 @@ $json2 = [];
 				     $json2 = json_decode($json2, true);
 				     if(isset($json2["data"])){
 				     	foreach ($json2["data"] as $r2) {
+
 				     	$imagen_url = $r2['producto_imagen_url'];
-				     	$imagen_a_copiar = $url_copiar_imagenes.'/'.$imagen_url;
+				     	
+				     	$imagen_explode = explode("/", $imagen_url);
+
+					    $imagen_product = end($imagen_explode);
+
+					    $imagen_a_copiar = $imagen_url;
+
 				     	if(isset($imagen_url) AND !empty($imagen_url)){
 				     		if (is_image($imagen_url)) {
 					    	
@@ -74,6 +94,14 @@ $json2 = [];
 				        				$resumen["resumen"][$indice]["name"] = $imagen_url;
 										$resumen["resumen"][$indice]["action"] = "actualizado";
 										$indice++;
+
+
+										$log[$indice_log]["url"]["first"] = $url_imagenes_producto;
+										$log[$indice_log]["page"] = $pagina;
+										$log[$indice_log]["response"] = $json2; 
+										
+										$indice_log++;
+
 				        				
 				        			}
 				     			}
@@ -109,12 +137,16 @@ $json2 = [];
 		
 		
 
-$log[$indice_log]["url"]["first"] = $url_imagenes_producto;
-$log[$indice_log]["url"]["second"] = $url_copiar_imagenes;
-$log[$indice_log]["page"] = $pagina;
-$log[$indice_log]["response"] = $json2; 
-$log[$indice_log]["error"] = $error;
-$indice_log++;
 
 $result = array("completado" => $pagina,"total" => $cantidad_paginas,"resumen" => $resumen,"log" => $log);
+
+if($cantidad_paginas > 0 && $pagina == $cantidad_paginas){
+
+	$log_synchronization_result = "Completed";
+
+	$data_log = array("tipo" => $log_synchronization_type,"opcion" => $log_synchronization_option,"resultado" => $log_synchronization_result);
+	create_log_obuma($data_log,"synchronization");
+
+}
+
 echo json_encode($result);

@@ -19,7 +19,7 @@ $pagina = obtener_numero_pagina($_POST["pagina"]);
 
 $cantidad_paginas = 0;
 
-$url = "http://api.obuma.cl/v1.0/productos.list.json";
+$url = set_url()."productos.list.json";
 $json = verificar_categorias_seleccionadas($url,$_POST["categorias_seleccionadas"],"productos");
 $json = json_encode($json, true);
 $json = json_decode($json, true);
@@ -54,6 +54,8 @@ if($cantidad_paginas > 0){
 			$categoria_vinculada = verificar_categoria_vinculada($producto_categoria);
 
 			if ($pro == false) {
+
+
 				try {
 					$product = new Product();  
 					$product->name = [$default_lang => $producto_nombre];
@@ -63,17 +65,21 @@ if($cantidad_paginas > 0){
 					$product->active = 1;
 					$product->quantity = 0;
 					$product->show_price = 1;
-					$product->meta_keywords = [$default_lang => $producto_meta_keywords]; 
+					$product->meta_keywords = [$default_lang => $producto_meta_keywords];
+
 					if($categoria_vinculada != false){
 						$product->id_category_default = (int)$categoria_vinculada[0]["id_category"]; 
 						$product->category = [(int)$categoria_vinculada[0]["id_category"]];
-						
-						$product->addToCategories($product->category);
 					}
 							  
 					if($product->add()){
 
 							if(update_id_producto_obuma($product->id,$producto_id)){
+								
+								if($categoria_vinculada != false){
+									$product->addToCategories([(int)$categoria_vinculada[0]["id_category"]]);
+								}
+
 								StockAvailable::updateQuantity((int)$pro[0]['id_product'], 0, 0);
 								$resumen["resumen"][$indice]["name"] = $producto_nombre;
 								$resumen["resumen"][$indice]["action"] = "agregado";
@@ -82,10 +88,7 @@ if($cantidad_paginas > 0){
 									
 					}
 				} catch (Exception $e) {
-					$creado_correctamente = obtener_id_product($producto_codigo_comercial);
-					if ($creado_correctamente != false) {
-						eliminar_producto($creado_correctamente[0]["id_product"]);
-					}
+					
 					$error[$producto_id]["message"] =  $e->__toString();
 					$error[$producto_id]["fields"]["name"] =  $producto_nombre;
 					$error[$producto_id]["fields"]["reference"] =  $producto_codigo_comercial;
@@ -147,7 +150,7 @@ if($cantidad_paginas > 0 && $pagina == $cantidad_paginas){
 	$log_synchronization_result = "Completed";
 
 	$data_log = array("tipo" => $log_synchronization_type,"opcion" => $log_synchronization_option,"resultado" => $log_synchronization_result);
-	create_log_synchronization($data_log);
+	create_log_obuma($data_log,"synchronization");
 
 }
 

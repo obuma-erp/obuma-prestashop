@@ -87,6 +87,20 @@ function copyImg($id_entity, $id_image = null, $url, $entity = 'products')
 }
 
 
+function set_url(){
+    $result = "";
+    $url_obuma = Configuration::get('api_url');
+    $url_obuma_array = str_split($url_obuma);
+    $ultimo_caracter = end($url_obuma_array);
+    
+    if($ultimo_caracter == "/"){
+        $result = $url_obuma;
+    }else{
+        $result = $url_obuma . "/";
+    }
+    return $result;
+}
+
     
 function is_valid_email($str)
 {
@@ -97,7 +111,7 @@ function is_valid_email($str)
 
 function total_paginas_first($file,$pagina){
     global $cantidad_paginas;
-    $json = ObumaConector::get("http://api.obuma.cl/v1.0/".$file,Configuration::get("API_KEY"));
+    $json = ObumaConector::get(set_url().$file,Configuration::get("api_key"));
     $json = json_encode($json, true);
     $json = json_decode($json, true);
     $cantidad_paginas = $json["data-total-pages"];
@@ -240,29 +254,60 @@ function actualizar_stock($id_product,$nuevo_stock){
     return Db::getInstance()->execute($actualizar_stock);
 }
 
-function verificar_cliente($id_cliente_obuma){
+function verificar_cliente($id_cliente_obuma,$sincronizar_por,$sincronizar_value){
     $result = false;
-    $existe_cliente = Db::getInstance()->executeS("SELECT id_customer,obuma_id_customer FROM "._DB_PREFIX_."customer WHERE obuma_id_customer='".$id_cliente_obuma."' LIMIT 1");
+    $conditions = [];
+    $where = "";
+    
+    if($sincronizar_por == 0){
+        $conditions[] = "obuma_rut='".$sincronizar_value."'";
+
+    }else{
+        $conditions[] = "email='".$sincronizar_value."'";
+    }
+
+    //$conditions[] = "obuma_id_customer='".$id_cliente_obuma."'";
+
+    if(count($conditions) > 0 ){
+         $where = " WHERE " .implode(" AND ",$conditions);
+    }
+   
+    
+    $existe_cliente = Db::getInstance()->executeS("SELECT id_customer,obuma_id_customer FROM "._DB_PREFIX_."customer {$where} LIMIT 1");
+
     if(count($existe_cliente) == 1){
         $result = $existe_cliente;
     }
     return $result;
 }
 
-function update_id_cliente_obuma($id_cliente,$id_cliente_obuma,$cliente_rut){
-    $update_id_obuma = "UPDATE "._DB_PREFIX_."customer SET obuma_rut='".$cliente_rut."',obuma_id_customer='".$id_cliente_obuma."' WHERE id_customer='".$id_cliente."'";
+function update_rut_id_obuma($id_cliente,$obuma_rut,$id_cliente_obuma){
+    $update_id_obuma = "UPDATE "._DB_PREFIX_."customer SET obuma_rut='{$obuma_rut}',obuma_id_customer='{$id_cliente_obuma}' WHERE id_customer='".$id_cliente."'";
     
     return Db::getInstance()->execute($update_id_obuma);
 
 }
 
-function create_log_synchronization($data){
+function create_log_obuma($data,$type){
 
     $fecha = date("Y-m-d");
     $hora = date("H:i:s");
-     $query_create_log_synchronization = "INSERT INTO "._DB_PREFIX_."obuma_log_synchronization SET fecha='".$fecha."',hora='".$hora."',tipo='".$data["tipo"]."',opcion='".$data["opcion"]."',resultado='".$data["resultado"]."'";
+
+    if($type == "synchronization"){
+        $query = "INSERT INTO "._DB_PREFIX_."obuma_log_synchronization SET fecha='".$fecha."',hora='".$hora."',tipo='".$data["tipo"]."',opcion='".$data["opcion"]."',resultado='".$data["resultado"]."'";
+    }
     
-    return Db::getInstance()->execute($query_create_log_synchronization);
+    if($type == "webhook"){
+        $query = "INSERT INTO "._DB_PREFIX_."obuma_log_webhook SET fecha='".$fecha."',hora='".$hora."',tipo='".$data["tipo"]."',peticion='".json_encode($data["peticion"])."',resultado='".$data["resultado"]."'";
+    }
+
+
+    if($type == "order"){
+        $query = "INSERT INTO "._DB_PREFIX_."obuma_log_order SET fecha='".$fecha."',hora='".$hora."',order_id='".$data["order_id"]."',peticion='".json_encode($data["peticion"])."',respuesta='".json_encode($data["respuesta"])."',estado='".$data["estado"]."'";
+    }
+    
+    
+    return Db::getInstance()->execute($query);
 
 }
 
@@ -285,5 +330,70 @@ function eliminar_producto($id_product){
         Db::getInstance()->execute($query);
     }
     
+
+}
+
+
+function validar_proveedor($sku){
+
+    $result = true;
+
+    $proveedores_actualizar_stock = trim(Configuration::get("proveedores_actualizar_stock"));
+    
+    if(!empty($proveedores_actualizar_stock)){
+
+        $explode_proveedores = explode(",",$proveedores_actualizar_stock);
+
+        $proveedores_valid = [];
+
+        foreach($explode_proveedores as $p){
+
+            if(is_numeric($p)){
+
+                $proveedores_valid[] = $p;
+
+            }
+
+        }  
+
+        if(count($proveedores_valid) > 0){
+
+            $proveedores_actualizar_stock_valid = implode(",", $proveedores_valid);
+
+            $obtener_id_product = Db::getInstance()->executeS("SELECT id_supplier FROM "._DB_PREFIX_."product WHERE reference='".$sku."' AND id_supplier IN ({$proveedores_actualizar_stock_valid})");
+
+            if(count($obtener_id_product) > 0){
+                $result = true;
+            }else{
+                $result = false;
+            }
+
+        }
+
+    }
+
+    return $result;
+ 
+}
+
+
+
+function check_version(){
+
+    $response = file_get_contents("https://obuma-cl.s3.us-east-2.amazonaws.com/cdn-utiles/versions_module_prestashop.json");
+
+    $response_decode = json_decode($response,true);
+
+    $result = false;
+    $html = "";
+    foreach ($response_decode as $key => $version) {
+        if($version["version"] > Configuration::get("obuma_module_version")){
+            $result = true;
+            break;
+        }
+    }
+
+
+    return $result;
 
 }

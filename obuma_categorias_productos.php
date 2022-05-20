@@ -16,7 +16,7 @@ $indice = 0;
 
 $pagina = obtener_numero_pagina($_POST["pagina"]);
 
-$url = "http://api.obuma.cl/v1.0/productosCategorias.list.json";
+$url = set_url()."productosCategorias.list.json";
 $json = verificar_categorias_seleccionadas($url,$_POST["categorias_seleccionadas"],"productos");
 $json = json_encode($json, true);
 $json = json_decode($json, true);
@@ -24,6 +24,13 @@ $data_categorias = $json["data"];
 $cantidad_paginas = $json["data-total-pages"];
 
 $default_lang = Configuration::get('PS_LANG_DEFAULT');
+
+
+//Variables log de sincronizacion:
+
+$log_synchronization_type = "Categories";
+$log_synchronization_option = "All categories";
+
 
 if($cantidad_paginas > 0){
 	foreach ($data_categorias as $key => $data) {
@@ -38,12 +45,13 @@ if($cantidad_paginas > 0){
 
 			$categoria = verificar_categoria($producto_categoria_id,$producto_categoria_nombre);
 
+
 			if ($categoria == false) {
 
 				try {
 					$category = new Category();
 			        $category->description = [ $default_lang => $producto_categoria_descripcion ] ;
-			        $category->id_parent = 2;
+			        $category->id_parent = Configuration::get('PS_HOME_CATEGORY');
 			        $category->is_root_category = false;
 			        $category->link_rewrite = [ $default_lang => Tools::str2url($producto_categoria_nombre) ];
 			        $category->meta_description = [ $default_lang => $producto_categoria_metadescription ] ;
@@ -73,7 +81,7 @@ if($cantidad_paginas > 0){
 				try {
 					$category = new Category($categoria[0]["id_category"]);
 			        $category->description = [ $default_lang => $producto_categoria_descripcion ] ;
-			        $category->id_parent = 2;
+			        $category->id_parent = Configuration::get('PS_HOME_CATEGORY');
 			        $category->is_root_category = false;
 			        $category->link_rewrite = [ $default_lang => Tools::str2url($producto_categoria_nombre) ];
 			        $category->meta_description = [ $default_lang => $producto_categoria_metadescription ] ;
@@ -115,6 +123,17 @@ $log[$indice_log]["error"] = $error;
 $indice_log++;
 
 $result = array("completado" => $pagina,"total" => $cantidad_paginas,"resumen" => $resumen,"log" => $log);
+
+if($cantidad_paginas > 0 && $pagina == $cantidad_paginas){
+
+	$log_synchronization_result = "Completed";
+
+	$data_log = array("tipo" => $log_synchronization_type,"opcion" => $log_synchronization_option,"resultado" => $log_synchronization_result);
+	create_log_obuma($data_log,"synchronization");
+
+}
+
+
 echo json_encode($result);
 
 ?>

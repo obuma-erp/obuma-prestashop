@@ -80,29 +80,86 @@ require_once "functions.php";
 		// Crear Cliente
 
 		$cliente_id = $data["cliente_id"];
-		$cliente_rut = $data["cliente_rut"];
-		$cliente_razon_social = $data["cliente_razon_social"];
-		$cliente_email = $data["cliente_email"];
+		$cliente_rut = trim($data["cliente_rut"]);
+		$cliente_razon_social = trim($data["cliente_razon_social"]);
+		$cliente_email = trim($data["cliente_email"]);
 		$cliente_clave = $data["cliente_clave"];
+		$rel_empresa_id = $data["rel_empresa_id"];
+		$result = [];
 
-		if (isset($cliente_razon_social) && !empty(trim($cliente_razon_social)) && is_valid_email(trim($cliente_email))) {
-			$cl = verificar_cliente($cliente_id);
+		$validar_cliente_por = Configuration::get("sincronizar_cliente_por");
+		$validar_cliente_por_value = "";
+
+		if(esRut($cliente_rut) == false || !is_valid_email($cliente_email)){
+
+			$data_log = array("tipo" => "Crear cliente","peticion" => json_encode($requestBody, JSON_PRETTY_PRINT), "resultado" => "Error : El rut o el email del cliente no es valido");
+	
+			create_log_obuma($data_log,"webhook");
+			exit();
+		}
+
+
+		if($validar_cliente_por == 0){
+
+			$validar_cliente_por_value = $cliente_rut;
+
+		}else{
+
+			$validar_cliente_por_value = $cliente_email;
+
+		}
+
+		if (isset($cliente_razon_social) && !empty($cliente_razon_social)) {
+			$cl = verificar_cliente($cliente_id,$validar_cliente_por,$validar_cliente_por_value)
 			if ($cl == false) {
 				try {
+
 					$customer = new Customer();
 					$customer->email = $cliente_email;
 					$customer->firstname = $cliente_razon_social;
 					$customer->lastname = $cliente_razon_social;
-					$customer->passwd = md5($cliente_clave);
-					$customer->is_guest = 1;
+					$customer->passwd = Tools::encrypt("Presto_i".$cliente_id."_i".$rel_empresa_id);
+					$customer->is_guest = 0;
+						
 					if($customer->add()){
-						update_id_cliente_obuma($customer->id,$cliente_id,$cliente_rut);
-						}
+
+						update_rut_id_obuma($customer->id,$cliente_rut,$cliente_id);
+							
+						$resumen["resumen"][$indice]["name"] = $cliente_razon_social;
+						$resumen["resumen"][$indice]["action"] = "agregado";
+						$indice++;	
+
+					}
+
 				} catch (Exception $e) {
-					print_r($e->getMessage());
+
+					$error[$cliente_id]["message"] =  $e->__toString();
+					$error[$cliente_id]["fields"]["firstname"] =  $cliente_razon_social;
+					$error[$cliente_id]["fields"]["lastname"] =  $cliente_razon_social;
+					$error[$cliente_id]["fields"]["email"] =  $cliente_email;
+
 				}
+					
+			}else{
+
+				$data_log = array("tipo" => "Crear cliente","peticion" => json_encode($requestBody, JSON_PRETTY_PRINT), "resultado" => "Error : El cliente ya existe en Prestashop");
+	
+				create_log_obuma($data_log,"webhook");
+
+				exit();
+
 			}
+		}else{
+
+			$data_log = array("tipo" => "Crear cliente","peticion" => json_encode($requestBody, JSON_PRETTY_PRINT), "resultado" => "Error : El cliente debe tener una razon social valida");
+	
+			create_log_obuma($data_log,"webhook");
+
+			exit();
 		}
 	}
 
+	$data_log = array("tipo" => "Crear cliente","peticion" => json_encode($requestBody, JSON_PRETTY_PRINT), "resultado" => json_encode($result, JSON_PRETTY_PRINT));
+
+	create_log_obuma($data_log,"webhook");
 ?>

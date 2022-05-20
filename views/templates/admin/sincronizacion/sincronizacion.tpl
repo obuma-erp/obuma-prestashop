@@ -1,9 +1,33 @@
+{if $check_version}
+	<div class='alert alert-warning' >
+	Hay una nueva versi&oacute;n disponible del modulo Obuma Sync !  <a target='__blank'  style='background-color:#bb4827;padding:5px;color:white;text-decoration:none;'href='https://github.com/obuma-erp/obuma-prestashop'>Obtener la nueva versi&oacute;n</a>
+	</div>
+{/if}
+
+
 <div class="panel panel-info">
 <div class="panel-heading bg-white">
 	{l s='Panel de Sinronización con la API OBUMA' mod='obuma'}
 </div>
 <div class='panel-body'>
-	
+
+
+{if isset($response_connect_success->data[0]->empresa_id) && $response_connect_success->data[0]->empresa_id > 0 }
+	<div class='alert alert-success'>
+	<strong>Se conect&oacute; correctamente  con la API de Obuma</strong><br>
+	Id de la empresa : {$response_connect_success->data[0]->empresa_id}<br>
+	Rut de la empresa : {$response_connect_success->data[0]->empresa_rut}<br>
+	Razón social : {$response_connect_success->data[0]->empresa_razon_social}<br>
+	Nombre de fantasia : {$response_connect_success->data[0]->empresa_nombre_fantasia}<br>
+	</div>
+	{else}
+	<div class='alert alert-danger'>
+	<strong>Hubo un error  al conectar con la API de Obuma,verifique el API KEY registrado en la configuraci&oacute;n del plugin . <a class='btn btn-primary' href='?controller=AdminConfiguracion&token={$token_configuracion}'>Ir a la configuraci&oacute;n</a></strong><br>
+
+	</div>
+{/if}
+
+
 	<p>{l s='Pulse en una de las opciones para sincronizar con la API de OBUMA' mod='obuma'}</p>
 <div class="row">
 

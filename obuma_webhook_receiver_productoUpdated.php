@@ -89,29 +89,59 @@ require_once "functions.php";
 
 			$pro = verificar_producto($producto_codigo_comercial);
 			$categoria_vinculada = verificar_categoria_vinculada($producto_categoria);
-		
-			try {
-				$product = new Product((int)$pro[0]["id_product"]);  
-				$product->name = [$default_lang => $producto_nombre];
-				$product->link_rewrite = [$default_lang => Tools::str2url($producto_nombre)];
-				$product->price = 0;
-				$product->active = 1;
-				$product->quantity = 0;
-				$product->show_price = 1;
-				$product->meta_keywords = [$default_lang => $producto_meta_keywords];
-				if($categoria_vinculada != false){
-					$product->id_category_default = (int)$categoria_vinculada[0]["id_category"];
-					$product->category = [(int)$categoria_vinculada[0]["id_category"]];
-					$product->updateCategories($product->category,true);
-				}  
-						 
-				if($product->update()){
-					update_id_producto_obuma($pro[0]["id_product"],$producto_id);	
+			
+
+			if($pro != false){
+				try {
+					$product = new Product((int)$pro[0]["id_product"]);  
+					$product->name = [$default_lang => $producto_nombre];
+					$product->link_rewrite = [$default_lang => Tools::str2url($producto_nombre)];
+					$product->price = 0;
+					$product->active = 1;
+					$product->quantity = 0;
+					$product->show_price = 1;
+					$product->meta_keywords = [$default_lang => $producto_meta_keywords];
+					if($categoria_vinculada != false){
+						$product->id_category_default = (int)$categoria_vinculada[0]["id_category"];
+						$product->category = [(int)$categoria_vinculada[0]["id_category"]];
+						$product->updateCategories($product->category,true);
+					}  
+							 
+					if($product->update()){
+						update_id_producto_obuma($pro[0]["id_product"],$producto_id);	
+
+						$result["message"] = "success";
+						$result["sku"] = $producto_codigo_comercial;
+					}
+				} catch (Exception $e) {
+						$result["message"] = $e->getMessage();
+						$result["code"] = $e->getCode();
+						$result["file"] = $e->getFile();
+						$result["sku"] = $producto_codigo_comercial;
 				}
-			} catch (Exception $e) {
-					print_r($e->getMessage());
+			}else{
+
+				$data_log = array("tipo" => "Actualizar producto","peticion" => json_encode($requestBody, JSON_PRETTY_PRINT), "resultado" => "Error : El producto ". $producto_codigo_comercial ." no fue encontrado en Prestashop");
+	
+				create_log_obuma($data_log,"webhook");
+
+				exit();
+
 			}
+
+		}else{
+
+			$data_log = array("tipo" => "Actualizar producto","peticion" => json_encode($requestBody, JSON_PRETTY_PRINT), "resultado" => "Error : El SKU y nombre del producto deben ser validos");
+	
+			create_log_obuma($data_log,"webhook");
+
+			exit();
+
 		}
 	}
+
+$data_log = array("tipo" => "Actualizar producto","peticion" => json_encode($requestBody, JSON_PRETTY_PRINT), "resultado" => json_encode($result, JSON_PRETTY_PRINT));
+	
+create_log_obuma($data_log,"webhook");
 
 ?>

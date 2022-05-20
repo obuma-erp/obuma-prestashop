@@ -1,5 +1,6 @@
 <?php 
 
+
 class AdminConfiguracionController extends ModuleAdminController{
 
 	public function __construct(){
@@ -15,6 +16,7 @@ class AdminConfiguracionController extends ModuleAdminController{
 		parent::initContent();
 
 		$this->getContent();
+        $this->context->smarty->assign("check_version",check_version());
 		$this->setTemplate('configuracion.tpl');
 	}
 
@@ -22,17 +24,17 @@ class AdminConfiguracionController extends ModuleAdminController{
         $this->context->smarty->assign("save",false);
         if(Tools::isSubmit("enviar_datos")){
 
-            $rut_empresa = Tools::getValue("rut_empresa");
-            $bodega = Tools::getValue("bodega");
-            $id_bodega = Tools::getValue("id_bodega");
-            $api_key = Tools::getValue("api_key");
-            $api_url = Tools::getValue("api_url");
-            $sucursal = Tools::getValue("sucursal");
-            $vendedor = Tools::getValue("vendedor");
-            $usuario = Tools::getValue("usuario");
-            $canal_venta = Tools::getValue("canal_venta");
-            $lista_precio = Tools::getValue("lista_precio");
-            $codigo_forma_pago = Tools::getValue("codigo_forma_pago");
+            $rut_empresa = trim(Tools::getValue("rut_empresa"));
+            $bodega = trim(Tools::getValue("bodega"));
+            $id_bodega = trim(Tools::getValue("id_bodega"));
+            $api_key = trim(Tools::getValue("api_key"));
+            $api_url = trim(Tools::getValue("api_url"));
+            $sucursal = trim(Tools::getValue("sucursal"));
+            $vendedor = trim(Tools::getValue("vendedor"));
+            $usuario = trim(Tools::getValue("usuario"));
+            $canal_venta = trim(Tools::getValue("canal_venta"));
+            $lista_precio = trim(Tools::getValue("lista_precio"));
+            $codigo_forma_pago = trim(Tools::getValue("codigo_forma_pago"));
             $rebajar_stock = Tools::getValue("rebajar_stock");
             $cliente_actualizar_datos = Tools::getValue("cliente_actualizar_datos");
             $registrar_contabilidad = Tools::getValue("registrar_contabilidad");
@@ -44,7 +46,11 @@ class AdminConfiguracionController extends ModuleAdminController{
             $enviar_ventas_obuma = Tools::getValue("enviar_ventas_obuma");
             $cambiar_a_completado = Tools::getValue("cambiar_a_completado");
             $sincronizar_precio = Tools::getValue("sincronizar_precio");
+            $sincronizar_cliente_por = Tools::getValue("sincronizar_cliente_por");
             $update_limpiar_registros_date = Tools::getValue("update_limpiar_registros_date");
+            $estado_enviar_obuma = Tools::getValue("estado_enviar_obuma");
+
+            $proveedores_actualizar_stock = trim(Tools::getValue("proveedores_actualizar_stock"));
 
             Configuration::updateValue("rut_empresa",$rut_empresa);
             Configuration::updateValue("bodega",$bodega);
@@ -67,7 +73,10 @@ class AdminConfiguracionController extends ModuleAdminController{
             Configuration::updateValue("enviar_ventas_obuma",$enviar_ventas_obuma);
             Configuration::updateValue("cambiar_a_completado",$cambiar_a_completado); 
             Configuration::updateValue("sincronizar_precio",$sincronizar_precio);
+            Configuration::updateValue("sincronizar_cliente_por",$sincronizar_cliente_por);
             Configuration::updateValue("update_limpiar_registros_date",$update_limpiar_registros_date);
+            Configuration::updateValue("estado_enviar_obuma",$estado_enviar_obuma);
+            Configuration::updateValue("proveedores_actualizar_stock",$proveedores_actualizar_stock);
 
             $this->context->smarty->assign("save",true);         
 
@@ -96,7 +105,12 @@ class AdminConfiguracionController extends ModuleAdminController{
         $enviar_ventas_obuma_text = Configuration::get("enviar_ventas_obuma");
         $cambiar_a_completado_text = Configuration::get("cambiar_a_completado");
         $sincronizar_precio_text = Configuration::get("sincronizar_precio");
+        $sincronizar_cliente_por_text = Configuration::get("sincronizar_cliente_por");
         $update_limpiar_registros_date_text = Configuration::get("update_limpiar_registros_date");
+        $estado_enviar_obuma_text = Configuration::get("estado_enviar_obuma");
+        $proveedores_actualizar_stock_text = Configuration::get("proveedores_actualizar_stock");
+
+
 
         $this->context->smarty->assign("rut_empresa",$rut_empresa_text);
         $this->context->smarty->assign("bodega",$bodega_text);
@@ -119,8 +133,19 @@ class AdminConfiguracionController extends ModuleAdminController{
         $this->context->smarty->assign("enviar_ventas_obuma",$enviar_ventas_obuma_text);
         $this->context->smarty->assign("cambiar_a_completado",$cambiar_a_completado_text);
         $this->context->smarty->assign("sincronizar_precio",$sincronizar_precio_text);
+        $this->context->smarty->assign("sincronizar_cliente_por",$sincronizar_cliente_por_text);
         $this->context->smarty->assign("update_limpiar_registros_date",$update_limpiar_registros_date_text);
 
+        $this->context->smarty->assign("estado_enviar_obuma",$estado_enviar_obuma_text);
+        $this->context->smarty->assign("proveedores_actualizar_stock",$proveedores_actualizar_stock_text);
+        $status = new OrderStateCore();
+        $estados = $status::getOrderStates(1);
+
+
+        //$estados = Db::getInstance()->executeS("SELECT * FROM "._DB_PREFIX_."order_state os INNER JOIN "._DB_PREFIX_."order_state_lang osl ON os.id_order_state=osl.id_order_state");
+
+
+         $this->context->smarty->assign("estados",$estados);
         //return $this->display(__FILE__,"views/templates/admin/configuracion/configuracion.tpl");
     }
 

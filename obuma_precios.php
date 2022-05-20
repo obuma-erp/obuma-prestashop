@@ -21,12 +21,22 @@ $pagina = obtener_numero_pagina($_POST["pagina"]);
 
 
 
-$url = "http://api.obuma.cl/v1.0/productosConsultaPrecios.list.json";
+$url = set_url()."productosConsultaPrecios.list.json";
 $json = verificar_categorias_seleccionadas($url,$_POST["categorias_seleccionadas"],"precios");
 $json = json_encode($json, true);
 $json = json_decode($json, true);
 $data_precios = $json["data"];
 $cantidad_paginas = $json["data-total-pages"];
+
+
+//Variables log de sincronizacion:
+
+$log_synchronization_type = "Product price";
+$log_synchronization_option = "All categories";
+if(isset($_POST["categorias_seleccionadas"])){
+	$log_synchronization_option = $_POST['categorias_seleccionadas'] == "all" ? "All categories" : $_POST['categorias_seleccionadas'];
+}
+
 
 if ($cantidad_paginas > 0) {
 	foreach ($data_precios as $key => $data) {
@@ -40,10 +50,20 @@ if ($cantidad_paginas > 0) {
 		if(isset($producto_codigo_comercial ) && !empty(trim($producto_codigo_comercial)) && isset($producto_nombre) &&  !empty(trim($producto_nombre))){
 			$pro = verificar_producto($producto_codigo_comercial);
 			if($pro != false){
+
+				$precio_aplicar = $producto_precio_clp_total;
+
+				if(Configuration::get("sincronizar_precio") == 1){
+					$precio_aplicar = $producto_precio_clp_neto;
+				}
+
 				try {
 
+					
+
+
 					$product = new Product((int)$pro[0]['id_product']);
-					$product->price = $producto_precio_clp_neto;
+					$product->price = $precio_aplicar;
 					//actualizar_precio($producto_codigo_comercial,$producto_precio_clp_neto);
 					if($product->update()){
 						$resumen["resumen"][$indice]["name"] = $producto_nombre;
@@ -54,7 +74,7 @@ if ($cantidad_paginas > 0) {
 					$error[$producto_id]["message"] =  $e->__toString();
 					$error[$producto_id]["fields"]["name"] =  $producto_categoria_nombre;
 					$error[$producto_id]["fields"]["reference"] =  $producto_codigo_comercial;
-					$error[$producto_id]["fields"]["price"] =  $producto_precio_clp_total;
+					$error[$producto_id]["fields"]["price"] =  $precio_aplicar;
 
 				}
 				
@@ -75,6 +95,17 @@ $log[$indice_log]["error"] = $error;
 $indice_log++;
 
 $result = array("completado" => $pagina,"total" => $cantidad_paginas,"resumen" => $resumen,"log" => $log);
+
+
+if($cantidad_paginas > 0 && $pagina == $cantidad_paginas){
+
+	$log_synchronization_result = "Completed";
+
+	$data_log = array("tipo" => $log_synchronization_type,"opcion" => $log_synchronization_option,"resultado" => $log_synchronization_result);
+	create_log_obuma($data_log,"synchronization");
+
+}
+
 echo json_encode($result);
 			
 
