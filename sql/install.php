@@ -1,13 +1,6 @@
 <?php 
 
 $sql = array();
-/*$sql[] = "CREATE TABLE IF NOT EXISTS ". _DB_PREFIX_."customer_obuma(
-		id int(11) PRIMARY KEY AUTO_INCREMENT,
-		id_customer_obuma int(11) not null,
-		rut_obuma varchar(15) not null,
-		razon_social_obuma varchar(100) not null,
-		id_customer int(11) not null) ENGINE = "._MYSQL_ENGINE_." DEFAULT CHARSET=UTF8";
-*/
 
 
  $table_obuma_log_order = _DB_PREFIX_ . 'obuma_log_order';
@@ -66,23 +59,6 @@ $sql = array();
       `name_category` text  NOT NULL,
        `obuma_id_category` int(11)  NOT NULL,
        PRIMARY KEY (`id`))";
-
-      $table_obuma_order_customer = _DB_PREFIX_ . 'obuma_order_customer';
-     $sql[] = "CREATE TABLE IF NOT EXISTS $table_obuma_order_customer (
-      `id` int(11) NOT NULL AUTO_INCREMENT,
-       `id_order` int(11) NOT NULL,
-      `id_customer` int(11) NOT NULL,
-       `tipo_documento` int(11) NOT NULL,
-       `rut` text  NOT NULL,
-       `giro_comercial` text NOT NULL,
-       PRIMARY KEY (`id`))";
-
-
-
-
-
-
-
 
 
 
