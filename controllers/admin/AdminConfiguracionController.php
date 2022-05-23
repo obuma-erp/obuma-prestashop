@@ -142,7 +142,6 @@ class AdminConfiguracionController extends ModuleAdminController{
         $estados = $status::getOrderStates(1);
 
 
-        $this->context->smarty->assign("sql",$check_exists_obuma_rut);
         $this->context->smarty->assign("estados",$estados);
         //return $this->display(__FILE__,"views/templates/admin/configuracion/configuracion.tpl");
     }
