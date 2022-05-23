@@ -65,21 +65,21 @@ $sql = array();
 
 
 $check_exists_obuma_rut = Db::getInstance()->executeS("SHOW COLUMNS FROM ". _DB_PREFIX_."customer WHERE Field = 'obuma_rut'");
-if(!isset($check_exists_obuma_rut[0]["obuma_rut"])){
+if(!isset($check_exists_obuma_rut[0]["Field"])){
     $sql[] = "ALTER TABLE ". _DB_PREFIX_. "customer ADD obuma_rut varchar(15) not null";
 }
 
 $check_exists_obuma_id_customer = Db::getInstance()->executeS("SHOW COLUMNS FROM ". _DB_PREFIX_."customer WHERE Field = 'obuma_id_customer'");
-if(!isset($check_exists_obuma_id_customer[0]["obuma_id_customer"])){
+if(!isset($check_exists_obuma_id_customer[0]["Field"])){
     $sql[] = "ALTER TABLE ". _DB_PREFIX_. "customer ADD obuma_id_customer int(11) not null";
 }
 
 $check_exists_obuma_id_product = Db::getInstance()->executeS("SHOW COLUMNS FROM ". _DB_PREFIX_."product WHERE Field = 'obuma_id_product'");
-if(!isset($check_exists_obuma_id_product[0]["obuma_id_product"])){
+if(!isset($check_exists_obuma_id_product[0]["Field"])){
     $sql[] = "ALTER TABLE ". _DB_PREFIX_. "product ADD obuma_id_product int(11) not null";
 }
 $check_exists_obuma_id_category = Db::getInstance()->executeS("SHOW COLUMNS FROM ". _DB_PREFIX_."category WHERE Field = 'obuma_id_category'");
-if(!isset($check_exists_obuma_id_category[0]["obuma_id_category"])){
+if(!isset($check_exists_obuma_id_category[0]["Field"])){
     $sql[] = "ALTER TABLE ". _DB_PREFIX_. "category ADD obuma_id_category int(11) not null";
 }
 

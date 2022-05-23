@@ -142,10 +142,8 @@ class AdminConfiguracionController extends ModuleAdminController{
         $estados = $status::getOrderStates(1);
 
 
-        //$estados = Db::getInstance()->executeS("SELECT * FROM "._DB_PREFIX_."order_state os INNER JOIN "._DB_PREFIX_."order_state_lang osl ON os.id_order_state=osl.id_order_state");
-
-
-         $this->context->smarty->assign("estados",$estados);
+        $this->context->smarty->assign("sql",$check_exists_obuma_rut);
+        $this->context->smarty->assign("estados",$estados);
         //return $this->display(__FILE__,"views/templates/admin/configuracion/configuracion.tpl");
     }
 
