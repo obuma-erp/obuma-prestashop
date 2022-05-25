@@ -59,6 +59,7 @@ class Obuma extends Module{
             !$this->registerHook("Header") ||
             !$this->registerHook("actionOrderStatusUpdate") || 
             !$this->registerHook("actionOrderStatusPostUpdate") || 
+            !$this->registerHook("actionValidateCustomerAddressFields") || 
             !$this->registerHook("AdditionalCustomerAddressFields") || 
             !$this->registerHook("actionValidateStepComplete") || 
             
@@ -331,6 +332,14 @@ class Obuma extends Module{
     }
 
 
+    public function hookActionValidateCustomerAddressForm($form){
+
+
+        var_dump($form);exit();
+
+
+    }
+
 
     public function hookAdditionalCustomerAddressFields($params){
 
@@ -352,9 +361,9 @@ class Obuma extends Module{
                 $data_add["33"] = "Factura";
             }
 
-            $extra_fields['other'] = (new FormField)->setName('other')->setLabel('Tipo de documento')->setType("select")->setAvailableValues($data_add)->setRequired(true);
+            $extra_fields['other'] = (new FormField)->setName('other')->setLabel('Tipo de documento')->setType("radio-buttons")->setAvailableValues($data_add)->setRequired(true);
 
-            return $extra_fields;
+            //return $extra_fields;
 
         }
 

@@ -66,8 +66,8 @@ if (document.getElementsByName('obuma_tipo_documento')[0]) {
 
 
 
-	if(!document.getElementById("invoice-address") && !document.getElementById("delivery-address")){
-/*
+
+
 		if(document.getElementsByName("confirm-addresses").length){
 			let add_address = document.getElementsByName("confirm-addresses")[0]
 			let p = document.createElement("p");
@@ -78,30 +78,36 @@ if (document.getElementsByName('obuma_tipo_documento')[0]) {
         
                       <label class="radio-inline" for="field-obuma_tipo_documento-39">
               <span class="custom-radio">
-                <input name="obuma_tipo_documento" onclick='select_tipo_documento(39)' id="field-obuma_tipo_documento-39" type="radio" value="39" checked>
+                <input name="use_same_address" onclick='select_tipo_documento(39)' id="field-obuma_tipo_documento-39" type="radio" value="1" checked>
                 <span></span>
               </span>
               Boleta
             </label>
                       <label class="radio-inline" for="field-obuma_tipo_documento-33">
               <span class="custom-radio">
-                <input name="obuma_tipo_documento"  onclick="select_tipo_documento(33)" id="field-obuma_tipo_documento-33" type="radio" value="33">
+                <input name="use_same_address"  onclick="" id="field-obuma_tipo_documento-33" type="radio" value="0">
                 <span></span>
               </span>
               Factura
             </label><p id="detalles_facturacion"></p></div><br>`
 			add_address.insertAdjacentElement('beforebegin',p);
 	}
-*/
 
 
-/*
+console.log(document.querySelector("input[name='saveAddress']"))
+document.querySelector("button[name='confirm-addresses']").addEventListener("click",function(){
+	alert("Asasas")
+})
+	
+
+
+
 	if(document.querySelector("a[data-link-action='different-invoice-address']")){
 		document.querySelector("a[data-link-action='different-invoice-address']").style.display = "none"
 	}
-*/
 
-	}
+
+	
 
 	function select_tipo_documento(tipo){
 
@@ -110,7 +116,13 @@ if (document.getElementsByName('obuma_tipo_documento')[0]) {
 
 	document.getElementById("content").insertAdjacentHTML("afterbegin","<input type='hidden' name='tipo_documento' id='tipo_documento'>")
 
-	if(document.getElementById("invoice-address")){
+
+
+	if(document.querySelector("input[name='saveAddress']")){
+
+
+
+	if(document.querySelector("input[name='saveAddress']").value == "invoice"){
 
 		if(document.querySelector("label[for='field-firstname']")){
 			document.querySelector("label[for='field-firstname']").innerText = "Razon social"
@@ -134,3 +146,5 @@ if (document.getElementsByName('obuma_tipo_documento')[0]) {
 		}
 		
 	}
+
+}

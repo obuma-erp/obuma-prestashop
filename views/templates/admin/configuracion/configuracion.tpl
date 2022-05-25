@@ -47,45 +47,46 @@
      <tr>
          <th><label for="exampleUrl">API KEY</label></th>
          <th><input type="password" name="api_key" id="api_key" value="{$api_key}" class="form-control"  aria-describedby="urlHelp" placeholder="Introduce API KEY" required>
-         <small id="urlHelp" class="form-text text-muted"></small>
+         <em style='color:#e74c3c;font-size: 0.8em;'>El API KEY es una clave &uacute;nica proporcionada por OBUMA, si a&uacute;n no la tiene, solic&iacute;tela a soporte@obuma.cl</em>
      </th>
      </tr>
 
     <tr>
          <th><label for="exampleUrl">API URL</label></th>
          <th><input type="text" name="api_url" id="api_url" value="{$api_url}" class="form-control"  aria-describedby="urlHelp" placeholder="Introduce API URL" required>
-         <small id="urlHelp" class="form-text text-muted">  URL para conectarse a la API de Obuma - ej. https://api.obuma.cl/v1.0 </small>
+         <em style='color:#e74c3c;font-size: 0.8em;'>URL para conectarse a la API de  Obuma - ej. https://api.obuma.cl/v1.0 </em>
      </th>
      </tr>
 
      <tr>
           <th><label for="exampleUrl">SUCURSAL</label></th>
          <th> <input type="text" name="sucursal" id="sucursal" value="{$sucursal}" class="form-control"  aria-describedby="urlHelp" placeholder="Introduce sucursal a usar">
-         <small id="urlHelp" class="form-text text-muted">Código sucursal desea vincular a las ventas</small>
+         <em style='color:#e74c3c;font-size: 0.8em;'>C&oacute;digo de la sucursal que desea vincular a las ventas por prestashop (Este valor se obtiene en OBUMA)</em>
      </th>
      </tr>
 
      <tr>
           <th><label for="exampleUrl">BODEGA</label></th>
          <th><input type="text" name="bodega" id="bodega" value="{$bodega}" class="form-control"  aria-describedby="urlHelp" placeholder="Introduce Bodega a usar">
-            <small id="urlHelp" class="form-text text-muted">Código bodega desea vincular a las ventas</small>
+            <em style='color:#e74c3c;font-size: 0.8em;'>C&oacute;digo de la bodega que desea vincular a las ventas por prestashop (Este valor se obtiene en OBUMA)</em>
          </th>
          <th><input type="text" name="id_bodega" id="id_bodega" value="{$id_bodega}" class="form-control"  aria-describedby="urlHelp" placeholder="Introduce Id de la bodega">
-             <small id="urlHelp" class="form-text text-muted">ID de la bodega</small>
+             
+             <em style='color:#e74c3c;font-size: 0.8em;'>ID de la bodega (Este valor se obtiene en OBUMA)</em>
          </th>
      </tr>
 
      <tr>
           <th><label for="exampleUrl">VENDEDOR</label></th>
          <th> <input type="text" name="vendedor" id="vendedor" value="{$vendedor}" class="form-control"  aria-describedby="urlHelp" placeholder="Introduce vendedor">
-            <small id="urlHelp" class="form-text text-muted">Código del vendedor desea vincular a las ventas</small>
+            <em style='color:#e74c3c;font-size: 0.8em;'>C&oacute;digo del vendedor que desea vincular a las ventas por prestashop (Este valor se obtiene en OBUMA)</em>
          </th>
      </tr>
 
      <tr>
           <th><label for="exampleUrl">USUARIO</label></th>
          <th><input type="text" name="usuario" id="usuario" value="{$usuario}" class="form-control"  aria-describedby="urlHelp" placeholder="Introduce usuario">
-        <small id="urlHelp" class="form-text text-muted">Usuario desea vincular a las ventas</small>
+        <em style='color:#e74c3c;font-size: 0.8em;'>C&oacute;digo del usuario que desea vincular a las ventas por prestashop (Este valor se obtiene en OBUMA)</em>
          </th>
      </tr>
 
@@ -93,7 +94,7 @@
       <tr>
          <th><label for="exampleUrl">CANAL VENTA</label></th>
          <th> <input type="text" name="canal_venta" id="canal_venta" value="{$canal_venta}" class="form-control"  aria-describedby="urlHelp" placeholder="Introduce el canal de venta">
-            <small id="urlHelp" class="form-text text-muted">Código del canal de venta que desea vincular a las ventas</small>
+            <em style='color:#e74c3c;font-size: 0.8em;'>C&oacute;digo del canal de venta que desea vincular a las ventas por prestashop (Este valor se obtiene en OBUMA)</em>
          </th>
      </tr>
 
@@ -101,14 +102,14 @@
      <tr>
          <th><label for="exampleUrl">LISTA PRECIO</label></th>
          <th> <input type="text" name="lista_precio" id="lista_precio" value="{$lista_precio}" class="form-control"  aria-describedby="urlHelp" placeholder="Introduce lista precio">
-            <small id="urlHelp" class="form-text text-muted">Código lista de precio desea vincular a las ventas</small>
+            <em style='color:#e74c3c;font-size: 0.8em;'>C&oacute;digo de la lista de precio que desea vincular a las ventas por prestashop (Este valor se obtiene en OBUMA)</em>
          </th>
      </tr>
 
       <tr>
          <th><label for="exampleUrl">CÓDIGO FORMA DE PAGO</label></th>
          <th><input type="text" name="codigo_forma_pago" id="codigo_forma_pago" value="{$codigo_forma_pago}" class="form-control"  aria-describedby="urlHelp" placeholder="Introduce código forma pago">
-            <small id="urlHelp" class="form-text text-muted">Código forma de pago desea vincular a las ventas</small>
+            <em style='color:#e74c3c;font-size: 0.8em;'>C&oacute;digo de la forma de pago que desea vincular a las ventas por prestashop (Este valor se obtiene en OBUMA)</em>
          </th>
      </tr>
 
@@ -144,7 +145,8 @@
          <th><input type="radio" value="0"  {if $enviar_email_cliente == 0} checked {/if}  name="enviar_email_cliente"  id="enviar_email_cliente"> No 
                 <input type="radio"  {if $enviar_email_cliente == 1} checked {/if}  name="enviar_email_cliente"  id="enviar_email_cliente" value="1"> Si 
                 <br>
-                <small id="urlHelp" class="form-text text-muted">Permite enviar email con boleta/factura al cliente</small>
+                <em style='color:#e74c3c;font-size: 0.8em;'>Permite enviar email con boleta/factura al cliente</em>
+
             </th>
      </tr>
 
@@ -152,7 +154,7 @@
          <th><label>REGISTRAR COBRO</label></th>
          <th><input type="radio" value="0" name="registrar_cobro"  {if $registrar_cobro == 0} checked {/if}   id="registrar_cobro"> No 
                 <input type="radio"  {if $registrar_cobro == 1} checked {/if}  name="registrar_cobro"  id="registrar_cobro" value="1"> Si <br>
-                <small id="urlHelp" class="form-text text-muted">Registra en obuma el cobro</small>
+                <em style='color:#e74c3c;font-size: 0.8em;'>Registra el cobro en OBUMA</em>
             </th>
      </tr>
 
@@ -183,7 +185,7 @@
             <input type="radio" value="0" name="enviar_ventas_obuma"  id="enviar_ventas_obuma" {if $enviar_ventas_obuma == 0}  checked {/if}> No 
                 <input type="radio" name="enviar_ventas_obuma" id="enviar_ventas_obuma" value="1" {if $enviar_ventas_obuma == 1}  checked {/if}> Si 
                 <br>
-                <small id="urlHelp" class="form-text text-muted">Habilita la funcionalidad de enviar ventas a OBUMA, mediante el estado seleccionado</small>
+                <em style='color:#e74c3c;font-size: 0.8em;'>Permite enviar a OBUMA las &oacute;rdenes que cambiaron al estado configurado</em>
         </th>
      </tr>
 
@@ -207,7 +209,7 @@
             <input type="radio" value="0" name="sincronizar_precio" id="sincronizar_precio" {if $sincronizar_precio == 0}  checked {/if}> Bruto 
                 <input type="radio" name="sincronizar_precio" id="sincronizar_precio" value="1" {if $sincronizar_precio == 1}  checked {/if}> Neto 
                 <br>
-                <small id="urlHelp" class="form-text text-muted">Permite seleccionar el precio a traer desde OBUMA (Bruto o Neto)</small>
+                <em style='color:#e74c3c;font-size: 0.8em;'>Permite seleccionar si se trae el precio bruto o el precio neto de los productos de OBUMA</em>
         </th>
      </tr>
 
@@ -218,7 +220,8 @@
             <input type="radio" value="0" name="sincronizar_cliente_por" id="sincronizar_cliente_por" {if $sincronizar_cliente_por == 0}  checked {/if}> Rut del cliente
                 <input type="radio" name="sincronizar_cliente_por" id="sincronizar_cliente_por" value="1" {if $sincronizar_cliente_por == 1}  checked {/if}> Email del cliente 
                 <br>
-                <small id="urlHelp" class="form-text text-muted">Permite seleccionar mediante qué opción se realizar&aacute; la comparaci&oacute;n de clientes entre Prestashop y OBUMA</small>
+
+                <em style='color:#e74c3c;font-size: 0.8em;'>Permite seleccionar mediante qué opción se realizar&aacute; la comparaci&oacute;n de clientes entre Prestashop y OBUMA</em>
         </th>
      </tr>
 
@@ -227,7 +230,8 @@
          <th>
             <input type="text" name="proveedores_actualizar_stock" id="proveedores_actualizar_stock" value="{$proveedores_actualizar_stock}" class="form-control"  aria-describedby="urlHelp" placeholder="Introduce los ID de los proveedores">
                 <br>
-                <small id="urlHelp" class="form-text text-muted">Permite definir solo en qu&eacute; proveedores se actualizar&aacute; el stock de los productos</small>
+
+                <em style='color:#e74c3c;font-size: 0.8em;'>Permite definir solo en qu&eacute; proveedores se actualizar&aacute; el stock de los productos</em>
         </th>
      </tr>
 
