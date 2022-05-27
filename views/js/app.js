@@ -67,7 +67,7 @@ if (document.getElementsByName('obuma_tipo_documento')[0]) {
 
 
 
-
+/*
 		if(document.getElementsByName("confirm-addresses").length){
 			let add_address = document.getElementsByName("confirm-addresses")[0]
 			let p = document.createElement("p");
@@ -78,14 +78,14 @@ if (document.getElementsByName('obuma_tipo_documento')[0]) {
         
                       <label class="radio-inline" for="field-obuma_tipo_documento-39">
               <span class="custom-radio">
-                <input name="use_same_address" onclick='select_tipo_documento(39)' id="field-obuma_tipo_documento-39" type="radio" value="1" checked>
+                <input name="tipo_documento" onclick='select_tipo_documento(39)' id="field-obuma_tipo_documento-39" type="radio" value="39" checked>
                 <span></span>
               </span>
               Boleta
             </label>
                       <label class="radio-inline" for="field-obuma_tipo_documento-33">
               <span class="custom-radio">
-                <input name="use_same_address"  onclick="" id="field-obuma_tipo_documento-33" type="radio" value="0">
+                <input name="tipo_documento"  onclick="" id="field-obuma_tipo_documento-33" type="radio" value="33">
                 <span></span>
               </span>
               Factura
@@ -93,13 +93,7 @@ if (document.getElementsByName('obuma_tipo_documento')[0]) {
 			add_address.insertAdjacentElement('beforebegin',p);
 	}
 
-
-console.log(document.querySelector("input[name='saveAddress']"))
-document.querySelector("button[name='confirm-addresses']").addEventListener("click",function(){
-	alert("Asasas")
-})
-	
-
+*/
 
 
 	if(document.querySelector("a[data-link-action='different-invoice-address']")){
@@ -114,7 +108,7 @@ document.querySelector("button[name='confirm-addresses']").addEventListener("cli
 		document.getElementById("tipo_documento").value = tipo
 	}
 
-	document.getElementById("content").insertAdjacentHTML("afterbegin","<input type='hidden' name='tipo_documento' id='tipo_documento'>")
+	//document.getElementById("content").insertAdjacentHTML("afterbegin","<input type='hidden' name='tipo_documento' id='tipo_documento'>")
 
 
 

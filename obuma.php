@@ -59,9 +59,9 @@ class Obuma extends Module{
             !$this->registerHook("Header") ||
             !$this->registerHook("actionOrderStatusUpdate") || 
             !$this->registerHook("actionOrderStatusPostUpdate") || 
-            !$this->registerHook("actionValidateCustomerAddressFields") || 
+            !$this->registerHook("actionValidateCustomerAddressForm") || 
             !$this->registerHook("AdditionalCustomerAddressFields") || 
-            !$this->registerHook("actionValidateStepComplete") || 
+
             
             !$this->createTabLink()){
 
@@ -334,10 +334,57 @@ class Obuma extends Module{
 
     public function hookActionValidateCustomerAddressForm($form){
 
+        /*
+        //$_POST["phone"] = "44444444";
+        $context = Context::getContext();
 
-        var_dump($form);exit();
+
+        
+        $id_customer = $context->customer->id;
+        $id_address = Tools::getValue("id_address");
+
+        $alias = Tools::getValue("alias") == null ? "Mi Direccion" : Tools::getValue("alias");
+        $firstname = Tools::getValue("firstname");
+        $lastname = Tools::getValue("lastname");
+        $company = Tools::getValue("company") == null ? "" : Tools::getValue("company");
+        $dni = Tools::getValue("dni");
+        $address1 = Tools::getValue("address1");
+        $address2 = Tools::getValue("address2") == null ? "" : Tools::getValue("address2");
+        $city = Tools::getValue("city");
+        $id_country = Tools::getValue("id_country");
+        $id_state = Tools::getValue("id_state") == null ? 0 : Tools::getValue("id_state");
+        $postcode = Tools::getValue("postcode") == null ? "" : Tools::getValue("postcode");
+        $phone = Tools::getValue("phone");
+        $saveAddress = Tools::getValue("saveAddress");
+        $tipo_documento = $_POST["tipo_documento"];
+
+        
+        
+        
 
 
+
+
+        if($tipo_documento == 33){
+
+            if($id_address == 0){
+
+                 Db::getInstance()->execute("INSERT INTO ". _DB_PREFIX_."address(id_country,id_customer,alias,company,lastname,firstname,address1,address2,postcode,city,other,phone,dni,date_add,date_upd) VALUES " . "('".$id_country."','".$id_customer."','".$alias."','".$company."','".$lastname."','".$firstname."','".$address1."','".$address2."','".$postcode."','".$city."','".$tipo_documento."','".$phone."','".$dni."','".date("Y-m-d H:i:s")."','".date("Y-m-d H:i:s")."')");
+
+
+                 $id =Db::getInstance()->Insert_ID();
+                
+
+
+            }
+
+
+            echo "<script>window.location.href='pedido?newAddress=invoice';</script>";
+            exit();
+        }
+        //echo "<script>window.location.href='pedido?newAddress=invoice';</script>";
+        //
+    */
     }
 
 
@@ -361,9 +408,9 @@ class Obuma extends Module{
                 $data_add["33"] = "Factura";
             }
 
-            $extra_fields['other'] = (new FormField)->setName('other')->setLabel('Tipo de documento')->setType("radio-buttons")->setAvailableValues($data_add)->setRequired(true);
+            $extra_fields['other'] = (new FormField)->setName('other')->setLabel('Tipo de documento')->setType("select")->setAvailableValues($data_add)->setRequired(true);
 
-            //return $extra_fields;
+            return $extra_fields;
 
         }
 
