@@ -397,3 +397,40 @@ function check_version(){
     return $result;
 
 }
+
+
+
+function updateOrderStatusObuma($order_id,$new_order_state){
+
+    $ctx = Context::getContext();
+    $emp_id = (int)$ctx->employee->id; 
+
+    $fecha = date('Y-m-d H:i:s');
+
+    $update_order_state = Db::getInstance()->execute("UPDATE  "._DB_PREFIX_."orders SET current_state={$new_order_state} WHERE id_order={$order_id}");
+
+    $insert_order_history = Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."order_history(id_employee,id_order,id_order_state,date_add) VALUES ({$emp_id},{$order_id},{$new_order_state},'{$fecha}')");
+
+
+
+}
+function getIdOrderStatus(){
+
+
+    $obtener_id_order_state = Db::getInstance()->executeS("SELECT id_order_state FROM "._DB_PREFIX_."order_state WHERE module_name='obuma' LIMIT 1");
+
+            if(count($obtener_id_order_state) > 0){
+                return $obtener_id_order_state[0]["id_order_state"];
+            }else{
+                return false;
+            }
+}
+
+function soloLetras($in){
+    if(preg_match('/[^a-zA-Z\s]/',$in)){ 
+        return false;
+    }else{
+     return true;
+
+    }
+}

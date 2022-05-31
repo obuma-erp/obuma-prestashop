@@ -34,6 +34,9 @@ $sql[] = "DROP TABLE IF EXISTS "._DB_PREFIX_."obuma_log_webhook";
 $sql[] = "DROP TABLE IF EXISTS "._DB_PREFIX_."obuma_vincular_categorias";
 
 
+
+$sql[] = "DELETE os,osl FROM "._DB_PREFIX_."order_state os INNER JOIN "._DB_PREFIX_."order_state_lang osl ON os.id_order_state=osl.id_order_state WHERE os.module_name='obuma'";
+
 foreach ($sql as $s) {
 		
 		if(!Db::getInstance()->execute($s)){

@@ -64,6 +64,20 @@ $sql = array();
 
 
 
+
+$insert_new_order_state = Db::getInstance()->execute("INSERT INTO ". _DB_PREFIX_."order_state(module_name,color) VALUES ('obuma','#fa2ca9')");
+
+$id_new_order_state =Db::getInstance()->Insert_ID();
+
+$id_lang = Configuration::get('PS_LANG_DEFAULT');
+
+$insert_new_order_state_lang = Db::getInstance()->execute("INSERT INTO ". _DB_PREFIX_."order_state_lang(id_order_state,id_lang,name,template) VALUES ('".$id_new_order_state."','".$id_lang."','Error al enviar a OBUMA','')");
+
+
+
+
+
+
 $check_exists_obuma_rut = Db::getInstance()->executeS("SHOW COLUMNS FROM ". _DB_PREFIX_."customer WHERE Field = 'obuma_rut'");
 if(!isset($check_exists_obuma_rut[0]["Field"])){
     $sql[] = "ALTER TABLE ". _DB_PREFIX_. "customer ADD obuma_rut varchar(15) not null";

@@ -3,6 +3,8 @@ if(!defined('_PS_VERSION_')){
     exit();
 }
 
+
+
 require_once "obuma_conector.php";
 require_once "functions.php";
 
@@ -294,7 +296,7 @@ class Obuma extends Module{
 
                 create_log_obuma($data_log,"order");
        
-                if (isset($response["respuesta"]["result"]["result_dte"][0]["dte_result"]) && $response["respuesta"]["result"]["result_dte"][0]["dte_result"] == "OK") {
+                if (isset($response["respuesta"]["result"]["result_dte"][0]["dte_id"])) {
 
                     $result_dte = $response["respuesta"]["result"]["result_dte"][0];
                     $this->insert_order_obuma(
@@ -307,6 +309,25 @@ class Obuma extends Module{
                           'dte_pdf' => $result_dte["dte_pdf"]
                             )
                     );
+                }else{
+
+                    if(isset($response["respuesta"]["errors"])){
+
+                        $objOrder = new Order($id);
+                        $history = new OrderHistory();
+                        $history->id_order = (int)$objOrder->id;
+
+                        $ctx = Context::getContext();
+                        $emp_id = (int)$ctx->employee->id;
+
+                        if(getIdOrderStatus() != false){
+                            $objOrder->setCurrentState(getIdOrderStatus(),$emp_id);  
+                            //$history->changeIdOrderState(getIdOrderStatus(), (int)($objOrder->id));
+
+                        }
+                        
+
+                    }
                 }
 
 
@@ -334,61 +355,130 @@ class Obuma extends Module{
 
     public function hookActionValidateCustomerAddressForm($form){
 
-        /*
-        //$_POST["phone"] = "44444444";
-        $context = Context::getContext();
-
-
+       $context = Context::getContext();
         
-        $id_customer = $context->customer->id;
-        $id_address = Tools::getValue("id_address");
+       $id_customer = $context->customer->id;
 
-        $alias = Tools::getValue("alias") == null ? "Mi Direccion" : Tools::getValue("alias");
-        $firstname = Tools::getValue("firstname");
-        $lastname = Tools::getValue("lastname");
-        $company = Tools::getValue("company") == null ? "" : Tools::getValue("company");
-        $dni = Tools::getValue("dni");
-        $address1 = Tools::getValue("address1");
-        $address2 = Tools::getValue("address2") == null ? "" : Tools::getValue("address2");
-        $city = Tools::getValue("city");
-        $id_country = Tools::getValue("id_country");
-        $id_state = Tools::getValue("id_state") == null ? 0 : Tools::getValue("id_state");
-        $postcode = Tools::getValue("postcode") == null ? "" : Tools::getValue("postcode");
-        $phone = Tools::getValue("phone");
-        $saveAddress = Tools::getValue("saveAddress");
-        $tipo_documento = $_POST["tipo_documento"];
+       $id_address = Tools::getValue("id_address");
 
-        
-        
-        
-
-
-
-
-        if($tipo_documento == 33){
 
             if($id_address == 0){
 
-                 Db::getInstance()->execute("INSERT INTO ". _DB_PREFIX_."address(id_country,id_customer,alias,company,lastname,firstname,address1,address2,postcode,city,other,phone,dni,date_add,date_upd) VALUES " . "('".$id_country."','".$id_customer."','".$alias."','".$company."','".$lastname."','".$firstname."','".$address1."','".$address2."','".$postcode."','".$city."','".$tipo_documento."','".$phone."','".$dni."','".date("Y-m-d H:i:s")."','".date("Y-m-d H:i:s")."')");
+                $alias = Tools::getValue("alias") == null ? "Mi Direccion" : Tools::getValue("alias");
+                $firstname = Tools::getValue("firstname");
 
 
-                 $id =Db::getInstance()->Insert_ID();
+                $lastname = Tools::getValue("lastname");
+                $company = Tools::getValue("company") == null ? "" : Tools::getValue("company");
+                $dni = Tools::getValue("dni");
+                $address1 = Tools::getValue("address1");
+                $address2 = Tools::getValue("address2") == null ? "" : Tools::getValue("address2");
+                $city = Tools::getValue("city");
+                $id_country = Tools::getValue("id_country");
+                $id_state = Tools::getValue("id_state") == null ? 0 : Tools::getValue("id_state");
+                $postcode = Tools::getValue("postcode") == null ? "" : Tools::getValue("postcode");
+                $phone = Tools::getValue("phone");
+                $saveAddress = Tools::getValue("saveAddress");
+
+                $tipo_documento_registrar = ($saveAddress == "delivery") ? 39 : 33;
+
+                $tipo_documento_seleccionado = !isset($_POST["tipo_documento"]) ? $tipo_documento_registrar : $_POST["tipo_documento"];
+                
+                 //Db::getInstance()->execute("INSERT INTO ". _DB_PREFIX_."address(id_country,id_customer,alias,company,lastname,firstname,address1,address2,postcode,city,other,phone,dni,date_add,date_upd) VALUES " . "('".$id_country."','".$id_customer."','".$alias."','".$company."','".$lastname."','".$firstname."','".$address1."','".$address2."','".$postcode."','".$city."','".$tipo_documento."','".$phone."','".$dni."','".date("Y-m-d H:i:s")."','".date("Y-m-d H:i:s")."')");
+
+
+                //$id =Db::getInstance()->Insert_ID();
                 
 
 
-            }
+                if(!soloLetras($firstname)){
+                    if($tipo_documento_registrar == 33){
+                        $this->context->controller->errors[] = $this->l('La razon social solo permite letras y espacios en blanco');
+                    }else{
+                         $this->context->controller->errors[] = $this->l('El nombre solo permite letras y espacios en blanco');
+                    }
+                    
+                    return false;
+                }
+                
+                if(!soloLetras($lastname)){
+                    if($tipo_documento_registrar == 33){
+                        $this->context->controller->errors[] = $this->l('El giro comercial solo permite letras y espacios en blanco');
+                    }else{
+                         $this->context->controller->errors[] = $this->l('Los apellidos solo permite letras y espacios en blanco');
+                    }
+                    return false;
+                }
 
 
-            echo "<script>window.location.href='pedido?newAddress=invoice';</script>";
-            exit();
-        }
-        //echo "<script>window.location.href='pedido?newAddress=invoice';</script>";
-        //
-    */
+
+                $address = new Address();
+                $address->id_customer = $id_customer; 
+                $address->firstname = pSQL($firstname);
+                $address->lastname = pSQL($lastname);
+                $address->address1 = pSQL($address1);
+                $address->address2 = pSQL($address2);
+                $address->company = pSQL($company);
+                $address->postcode = pSQL($postcode);
+                $address->city = pSQL($city);
+                $address->id_country = (int)$id_country; 
+                $address->alias = pSQL($alias);
+                $address->phone = pSQL($phone);
+                $address->dni = pSQL($dni);
+                $address->other = pSQL($tipo_documento_registrar);
+                $address->add();
+                    
+                //$this->context->cookie->__set('id_address_delivery', $address->id);
+                
+                
+                if($tipo_documento_registrar == 39){
+                    
+                    $this->context->cart->updateAddressId(
+                    $this->context->cart->id_address_delivery,
+                    $address->id
+                    );
+
+                    $this->context->cart->id_address_delivery =  $address->id;
+                   
+
+                }else{
+                    
+                    $this->context->cart->updateAddressId(
+                    $this->context->cart->id_address_invoice,
+                    $address->id
+                    ); 
+                    
+                    $this->context->cart->id_address_invoice =  $address->id;
+
+                }
+                
+
+
+
+                if($tipo_documento_seleccionado == 33){
+                    echo "<script>window.location.href='pedido?newAddress=invoice';</script>";
+                    exit();
+                }else{
+                    if($saveAddress == "invoice"){
+                         echo "<script>window.location.href='pedido?use_same_address=0';</script>";
+                       
+                    }else{
+                         echo "<script>window.location.href='pedido';</script>";
+                    }
+                    exit();
+                }
+
+
+
+
+            }   
+    
+        
     }
 
 
     public function hookAdditionalCustomerAddressFields($params){
+
 
         $enviar_ventas_obuma = Configuration::get("enviar_ventas_obuma");
 
@@ -410,9 +500,10 @@ class Obuma extends Module{
 
             $extra_fields['other'] = (new FormField)->setName('other')->setLabel('Tipo de documento')->setType("select")->setAvailableValues($data_add)->setRequired(true);
 
-            return $extra_fields;
+            //return $extra_fields;
 
         }
+
 
 
     }
