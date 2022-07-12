@@ -112,7 +112,7 @@ class Obuma extends Module{
         }
     }
      public function hookDisplayBackOfficeHeader($params) {
-        if (Tools::getValue("controller") === "AdminSincronizacion" || Tools::getValue("controller") === "AdminConfiguracion" || Tools::getValue("controller") === "AdminLogOrdenes" || Tools::getValue("controller") === "AdminVincularCategorias") {
+        if (Tools::getValue("controller") === "AdminSincronizacion" || Tools::getValue("controller") === "AdminConfiguracion" || Tools::getValue("controller") === "AdminLogOrdenes" || Tools::getValue("controller") === "AdminVincularCategorias"  || Tools::getValue("controller") === "AdminOtros") {
             
             $this->context->controller->addCSS($this->local_path."views/css/back_obuma.css");
             $this->context->controller->addJS(__PS_BASE_URI__."/js/jquery/jquery-1.11.0.min.js");
@@ -626,6 +626,20 @@ class Obuma extends Module{
       $tab->name = array();
       foreach (Language::getLanguages() as $language) {
           $tab->name[$language['id_lang']] = $this->l('Log de webhook');
+      }
+      $tab->id_parent = $parentTab->id;
+      $tab->module = $this->name;
+      $tab->add();
+
+      $parentTabID = Tab::getIdFromClassName('AdminObuma');
+      $parentTab = new Tab($parentTabID);
+
+      $tab = new Tab();
+      $tab->active = 1;
+      $tab->class_name = "AdminOtros";
+      $tab->name = array();
+      foreach (Language::getLanguages() as $language) {
+          $tab->name[$language['id_lang']] = $this->l('Otros');
       }
       $tab->id_parent = $parentTab->id;
       $tab->module = $this->name;

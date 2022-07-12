@@ -95,3 +95,13 @@
 #cargar_vistas{
   background-color: white;
 }
+
+.button_black{
+
+  background-color: #000 !important;
+  color:  white;
+}
+
+.input_copy_link{
+  display: inline-block !important;
+}
