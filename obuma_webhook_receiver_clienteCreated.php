@@ -110,7 +110,7 @@ require_once "functions.php";
 		}
 
 		if (isset($cliente_razon_social) && !empty($cliente_razon_social)) {
-			$cl = verificar_cliente($cliente_id,$validar_cliente_por,$validar_cliente_por_value)
+			$cl = verificar_cliente($cliente_id,$validar_cliente_por,$validar_cliente_por_value);
 			if ($cl == false) {
 				try {
 
