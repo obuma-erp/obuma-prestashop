@@ -113,6 +113,30 @@
          </th>
      </tr>
 
+    <tr>
+         <th><label>ENVIAR VENTAS A OBUMA</label></th>
+         <th>
+            <input type="radio" value="0" name="enviar_ventas_obuma"  id="enviar_ventas_obuma" {if $enviar_ventas_obuma == 0}  checked {/if}> No 
+                <input type="radio" name="enviar_ventas_obuma" id="enviar_ventas_obuma" value="1" {if $enviar_ventas_obuma == 1}  checked {/if}> Si 
+                <br>
+                <em style='color:#e74c3c;font-size: 0.8em;'>Permite enviar a OBUMA las &oacute;rdenes que cambiaron al estado configurado</em>
+        </th>
+     </tr>
+
+
+     <tr>
+         <th><label>ESTADO PARA ENVIAR A OBUMA</label></th>
+         <th>
+            <select name="estado_enviar_obuma">
+                <option  value="0">Seleccionar</option>
+                {foreach key=cid item=estado from=$estados}
+                    <option {if $estado["id_order_state"] eq $estado_enviar_obuma} selected {/if} value="{$estado["id_order_state"]}">{$estado["name"]}</option>
+                {/foreach}
+            </select>
+        </th>
+     </tr>
+
+
       <tr>
          <th><label>REBAJAR STOCK</label></th>
          <th><input type="radio" {if $rebajar_stock == 0} checked {/if} value="0" name="rebajar_stock"  id="rebajar_stock"> No 
@@ -179,28 +203,7 @@
             </th>
      </tr>
 
-      <tr>
-         <th><label>ENVIAR VENTAS A OBUMA</label></th>
-         <th>
-            <input type="radio" value="0" name="enviar_ventas_obuma"  id="enviar_ventas_obuma" {if $enviar_ventas_obuma == 0}  checked {/if}> No 
-                <input type="radio" name="enviar_ventas_obuma" id="enviar_ventas_obuma" value="1" {if $enviar_ventas_obuma == 1}  checked {/if}> Si 
-                <br>
-                <em style='color:#e74c3c;font-size: 0.8em;'>Permite enviar a OBUMA las &oacute;rdenes que cambiaron al estado configurado</em>
-        </th>
-     </tr>
 
-
-     <tr>
-         <th><label>ESTADO PARA ENVIAR A OBUMA</label></th>
-         <th>
-            <select name="estado_enviar_obuma">
-                <option  value="0">Seleccionar</option>
-                {foreach key=cid item=estado from=$estados}
-                    <option {if $estado["id_order_state"] eq $estado_enviar_obuma} selected {/if} value="{$estado["id_order_state"]}">{$estado["name"]}</option>
-                {/foreach}
-            </select>
-        </th>
-     </tr>
 
 
      <tr>

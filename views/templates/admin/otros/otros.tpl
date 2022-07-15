@@ -14,8 +14,10 @@
 		<div class="wrap">
 
 			<ul>
-				<li>Versi&oacute;n actual del m&oacute;dulo : <code>1.0.1</code></li>
-				<li>Requisitos m&iacute;nimos  : <code>Prestashop 1.7.7.0</code>  &oacute; superior , <code>PHP 5.6</code> &oacute; superior</li>
+			<li>Versi&oacute;n de Prestashop instalada : <code>{$version_prestashop}</code></li>
+			<li>Versi&oacute;n de PHP instalada : <code>{$version_php}</code></li>
+			<li>Versi&oacute;n de Obuma Sync : <code>1.0.1</code></li>
+			<li>Requisitos m&iacute;nimos de Obuma Sync  : <code>Prestashop 1.7.7.0</code>  &oacute; superior , <code>PHP 5.6</code> &oacute; superior</li>
 
 			</ul>
 

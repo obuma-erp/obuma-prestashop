@@ -18,6 +18,8 @@ class AdminOtrosController extends ModuleAdminController{
 		
 		$url = Tools::getHttpHost(true).__PS_BASE_URI__."modules/obuma/";
 		
+		$this->context->smarty->assign("version_php",phpversion());
+		$this->context->smarty->assign("version_prestashop",_PS_VERSION_);
 		$this->context->smarty->assign("url_plugin",$url);
 		$this->setTemplate('otros.tpl');
 	}
