@@ -95,7 +95,7 @@ require_once "functions.php";
 
 					try {
 
-						if(StockAvailable::updateQuantity((int)$pro[0]['id_product'], 0, $pi_saldo)){
+						if(StockAvailable::setQuantity((int)$pro[0]['id_product'], 0, $pi_saldo)){
 							$result["message"] = "success";
 							$result["sku"] = $producto_codigo_comercial;
 						}

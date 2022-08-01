@@ -62,7 +62,7 @@ if(isset($json["data"])){
 							//StockAvailable::setQuantity((int)$pro[0]['id_product'], 0, $quantity);
 							//StockAvailable::updateQuantity((int)$pro[0]['id_product'], 0, $quantity);
 							//actualizar_stock((int)$pro[0]['id_product'],$producto_stock_actual);
-							if(StockAvailable::updateQuantity((int)$pro[0]['id_product'], 0, $producto_stock_actual)){
+							if(StockAvailable::setQuantity((int)$pro[0]['id_product'], 0, $producto_stock_actual)){
 								$resumen["resumen"][$indice]["name"] = $producto_nombre;
 								$resumen["resumen"][$indice]["action"] = "actualizado";
 								$indice++;

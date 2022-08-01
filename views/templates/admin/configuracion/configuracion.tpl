@@ -184,8 +184,8 @@
 
           <tr>
          <th><label>TIPO DE DOCUMENTO</label></th>
-         <th><input type="checkbox" {if in_array(39,json_decode($tipo_documento))} checked {/if} multiple value="39" name="tipo_documento[]"  id="tipo_documento" required> Boleta 
-                <input type="checkbox" {if in_array(33,json_decode($tipo_documento))} checked {/if} multiple name="tipo_documento[]"  id="tipo_documento" value="33" required> Factura 
+         <th><input type="checkbox" {if in_array(39,json_decode($tipo_documento))} checked {/if} multiple value="39" name="tipo_documento[]"  id="tipo_documento"> Boleta 
+                <input type="checkbox" {if in_array(33,json_decode($tipo_documento))} checked {/if} multiple name="tipo_documento[]"  id="tipo_documento" value="33"> Factura 
                 <br>
                 <small id="urlHelp" class="form-text text-muted">&nbsp;</small>
             </th>
