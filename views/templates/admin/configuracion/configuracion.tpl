@@ -257,7 +257,7 @@
                    <strong  id="update_limpiar_registros"> {$update_limpiar_registros_date}</strong>
 
                    <br>
-                <small id="urlHelp" class="form-text text-muted">Permite limpiar los registros antiguos generados por el plugin Obuma Sync</small>
+                <small id="urlHelp" class="form-text text-muted">Permite limpiar los registros antiguos generados por el m&oacute;dulo Obuma Sync</small>
                 
         </th>
      </tr>
