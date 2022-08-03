@@ -378,7 +378,7 @@ function validar_proveedor($sku){
 
 
 
-function check_version(){
+function check_version_module_obuma(){
 
     $response = file_get_contents("https://obuma-cl.s3.us-east-2.amazonaws.com/cdn-utiles/versions_module_prestashop.json");
 

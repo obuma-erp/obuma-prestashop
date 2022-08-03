@@ -28,7 +28,7 @@ class AdminLogSincronizacionController extends ModuleAdminController{
 
 		$log_sincronizacion = Db::getInstance()->executeS($sql);
 
-		$this->context->smarty->assign("check_version",check_version());
+		$this->context->smarty->assign("check_version",check_version_module_obuma());
 		$this->context->smarty->assign("log_sincronizacion",$log_sincronizacion);
 		$this->setTemplate('log_sincronizacion.tpl');
 	}

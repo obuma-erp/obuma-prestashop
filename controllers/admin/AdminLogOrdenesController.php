@@ -30,7 +30,7 @@ class AdminLogOrdenesController extends ModuleAdminController{
 
 		$log_ordenes = Db::getInstance()->executeS($sql);
 
-		$this->context->smarty->assign("check_version",check_version());
+		$this->context->smarty->assign("check_version",check_version_module_obuma());
 		$this->context->smarty->assign("log_ordenes",$log_ordenes);
 		$this->setTemplate('log_ordenes.tpl');
 	}

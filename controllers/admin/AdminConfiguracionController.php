@@ -16,7 +16,7 @@ class AdminConfiguracionController extends ModuleAdminController{
 		parent::initContent();
 
 		$this->getContent();
-        $this->context->smarty->assign("check_version",check_version());
+        $this->context->smarty->assign("check_version",check_version_module_obuma());
 		$this->setTemplate('configuracion.tpl');
 	}
 

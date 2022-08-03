@@ -28,7 +28,7 @@ class AdminLogWebhookController extends ModuleAdminController{
 
 		$log_webhook = Db::getInstance()->executeS($sql);
 
-		$this->context->smarty->assign("check_version",check_version());
+		$this->context->smarty->assign("check_version",check_version_module_obuma());
 		$this->context->smarty->assign("log_webhook",$log_webhook);
 		$this->setTemplate('log_webhook.tpl');
 	}

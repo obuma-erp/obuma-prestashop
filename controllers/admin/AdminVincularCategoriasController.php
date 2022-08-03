@@ -18,7 +18,7 @@ class AdminVincularCategoriasController extends ModuleAdminController{
 		$this->agregar_categoria_vinculada();
 		$this->obtenerCategorias();
 		
-		$this->context->smarty->assign("check_version",check_version());
+		$this->context->smarty->assign("check_version",check_version_module_obuma());
 		$this->setTemplate('vincular_categorias.tpl');
 	}
 

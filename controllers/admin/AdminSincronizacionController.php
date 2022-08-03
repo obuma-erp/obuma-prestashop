@@ -25,7 +25,7 @@ class AdminSincronizacionController extends ModuleAdminController{
 
 
 		
-		$this->context->smarty->assign("check_version",check_version());
+		$this->context->smarty->assign("check_version",check_version_module_obuma());
 		$this->context->smarty->assign("response_connect_success",$json);
 		$this->context->smarty->assign("token_configuracion",$token_configuracion);
 		$this->setTemplate('sincronizacion.tpl');
