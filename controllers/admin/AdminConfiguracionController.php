@@ -41,7 +41,7 @@ class AdminConfiguracionController extends ModuleAdminController{
             $enviar_email_cliente = Tools::getValue("enviar_email_cliente");
             $registrar_cobro = Tools::getValue("registrar_cobro");
 
-            $tipo_documento = json_encode(Tools::getValue("tipo_documento"));
+            $tipo_documento = is_array(Tools::getValue("tipo_documento")) ?  json_encode(Tools::getValue("tipo_documento")) : "[]";
             $nota_venta_segundo_plano = Tools::getValue("nota_venta_segundo_plano");
             $enviar_ventas_obuma = Tools::getValue("enviar_ventas_obuma");
             $cambiar_a_completado = Tools::getValue("cambiar_a_completado");
