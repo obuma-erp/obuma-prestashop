@@ -18,7 +18,7 @@ class AdminVincularCategoriasController extends ModuleAdminController{
 		$this->agregar_categoria_vinculada();
 		$this->obtenerCategorias();
 		
-		$this->context->smarty->assign("check_version",check_version_module_obuma());
+		$this->context->smarty->assign("check_version",$this->check_version_module_obuma());
 		$this->setTemplate('vincular_categorias.tpl');
 	}
 
@@ -99,6 +99,28 @@ class AdminVincularCategoriasController extends ModuleAdminController{
 		return $data;
 
 	}
+
+
+	private function check_version_module_obuma(){
+
+
+        $response = file_get_contents("https://obuma-cl.s3.us-east-2.amazonaws.com/cdn-utiles/versions_module_prestashop.json");
+
+        $response_decode = json_decode($response,true);
+
+        $result = false;
+        $html = "";
+        foreach ($response_decode as $key => $version) {
+            if($version["version"] > Configuration::get("obuma_module_version")){
+                $result = true;
+                break;
+            }
+        }
+
+
+        return $result;
+        
+    }
 }
 
 

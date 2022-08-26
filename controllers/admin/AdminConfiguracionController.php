@@ -16,7 +16,7 @@ class AdminConfiguracionController extends ModuleAdminController{
 		parent::initContent();
 
 		$this->getContent();
-        $this->context->smarty->assign("check_version",check_version_module_obuma());
+        $this->context->smarty->assign("check_version",$this->check_version_module_obuma());
 		$this->setTemplate('configuracion.tpl');
 	}
 
@@ -144,6 +144,29 @@ class AdminConfiguracionController extends ModuleAdminController{
 
         $this->context->smarty->assign("estados",$estados);
         //return $this->display(__FILE__,"views/templates/admin/configuracion/configuracion.tpl");
+    }
+
+
+
+    private function check_version_module_obuma(){
+
+
+        $response = file_get_contents("https://obuma-cl.s3.us-east-2.amazonaws.com/cdn-utiles/versions_module_prestashop.json");
+
+        $response_decode = json_decode($response,true);
+
+        $result = false;
+        $html = "";
+        foreach ($response_decode as $key => $version) {
+            if($version["version"] > Configuration::get("obuma_module_version")){
+                $result = true;
+                break;
+            }
+        }
+
+
+        return $result;
+        
     }
 
 }

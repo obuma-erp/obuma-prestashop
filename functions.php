@@ -377,29 +377,6 @@ function validar_proveedor($sku){
 }
 
 
-
-function check_version_module_obuma(){
-
-    $response = file_get_contents("https://obuma-cl.s3.us-east-2.amazonaws.com/cdn-utiles/versions_module_prestashop.json");
-
-    $response_decode = json_decode($response,true);
-
-    $result = false;
-    $html = "";
-    foreach ($response_decode as $key => $version) {
-        if($version["version"] > Configuration::get("obuma_module_version")){
-            $result = true;
-            break;
-        }
-    }
-
-
-    return $result;
-
-}
-
-
-
 function updateOrderStatusObuma($order_id,$new_order_state){
 
     $ctx = Context::getContext();
