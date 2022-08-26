@@ -14,7 +14,7 @@ class AdminSincronizacionController extends ModuleAdminController{
 	public function initContent(){
 		parent::initContent();
 
-		$json = ObumaConector::get(set_url()."empresa.findByAPIKey.json/".Configuration::get("api_key"),Configuration::get("api_key"));
+		$json = ObumaConector::get($this->set_url()."empresa.findByAPIKey.json/".Configuration::get("api_key"),Configuration::get("api_key"));
 
 		$cookie = new Cookie("psAdmin");
 		$id_employee = $cookie->__get("id_employee");
@@ -52,6 +52,21 @@ class AdminSincronizacionController extends ModuleAdminController{
 
         return $result;
         
+    }
+
+
+    private function set_url(){
+        $result = "";
+        $url_obuma = Configuration::get('api_url');
+        $url_obuma_array = str_split($url_obuma);
+        $ultimo_caracter = end($url_obuma_array);
+        
+        if($ultimo_caracter == "/"){
+            $result = $url_obuma;
+        }else{
+            $result = $url_obuma . "/";
+        }
+        return $result;
     }
 }
 
