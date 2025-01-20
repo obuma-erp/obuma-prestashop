@@ -5,8 +5,9 @@ if(!defined('_PS_VERSION_')){
 
 
 
-require_once "obuma_conector.php";
-require_once "functions.php";
+require_once dirname(__FILE__) . "/obuma_conector.php";
+require_once dirname(__FILE__) . "/functions.php";
+
 
 
 class Obuma extends Module{
