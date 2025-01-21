@@ -29,7 +29,7 @@ class Obuma extends Module{
     
     public function install(){
 
-        include_once($this->local_path."sql/install.php");
+        include_once(dirname(__FILE__)."/sql/install.php");
 
         if(!parent::install() ||
             !Configuration::updateValue("rut_empresa","") || 
@@ -80,7 +80,7 @@ class Obuma extends Module{
     
     public function uninstall(){
 
-        include_once($this->local_path."sql/uninstall.php");
+        include_once(dirname(__FILE__)."/sql/uninstall.php");
 
         if(!parent::uninstall() ||
            !Configuration::deleteByName("rut_empresa") || 
@@ -127,7 +127,7 @@ class Obuma extends Module{
             $this->context->controller->addJS("http://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js");
 
         }
-        
+
     }
 
     public function hookHeader(){
