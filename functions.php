@@ -55,37 +55,46 @@ function eliminar_simbolos($string){
 return $string;
 } 
 
-function copyImg($id_entity, $id_image = null, $url, $entity = 'products')
-{
-    //añadimos la imagen que nos envia el codigo desde WS al prestashop
+function copyImg($id_entity, $url, $id_image = null, $entity = 'products'){
     
+    // Añadimos la imagen que nos envía el código desde WS al Prestashop
     $tmpfile = tempnam(_PS_TMP_IMG_DIR_, 'ps_import');
     $watermark_types = explode(',', Configuration::get('WATERMARK_TYPES'));
     $image_obj = new Image($id_image);
     $path = $image_obj->getPathForCreation();
     $url = str_replace(' ', '%20', trim($url));
-    if (!ImageManager::checkImageMemoryLimit($url))
+    
+    if (!ImageManager::checkImageMemoryLimit($url)) {
         return false;
-
-    if (@copy($url, $tmpfile))
-    {
-        ImageManager::resize($tmpfile, $path.'.jpg');
-        $images_types = ImageType::getImagesTypes($entity);
-        foreach ($images_types as $image_type)
-            ImageManager::resize($tmpfile, $path.'-'.stripslashes($image_type['name']).'.jpg', $image_type['width'], $image_type['height']);
-
-        if (in_array($image_type['id_image_type'], $watermark_types))
-            Hook::exec('actionWatermark', array('id_image' => $id_image, 'id_product' => $id_entity));
     }
-    else
-    {
+
+    if (@copy($url, $tmpfile)) {
+        ImageManager::resize($tmpfile, $path . '.jpg');
+        $images_types = ImageType::getImagesTypes($entity);
+        
+        foreach ($images_types as $image_type) {
+            ImageManager::resize(
+                $tmpfile,
+                $path . '-' . stripslashes($image_type['name']) . '.jpg',
+                $image_type['width'],
+                $image_type['height']
+            );
+
+            if (in_array($image_type['id_image_type'], $watermark_types)) {
+                Hook::exec('actionWatermark', [
+                    'id_image' => $id_image,
+                    'id_product' => $id_entity
+                ]);
+            }
+        }
+    } else {
         unlink($tmpfile);
         return false;
     }
+
     unlink($tmpfile);
     return true;
 }
-
 
 function set_url(){
     $result = "";

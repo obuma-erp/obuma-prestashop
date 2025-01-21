@@ -75,6 +75,7 @@ if(isset($_POST["categorias_seleccionadas"])){
 					    $imagen_a_copiar = $imagen_url;
 
 				     	if(isset($imagen_url) AND !empty($imagen_url)){
+
 				     		if (is_image($imagen_url)) {
 					    	
 					    	
@@ -87,7 +88,7 @@ if(isset($_POST["categorias_seleccionadas"])){
 
 								if (($image->validateFields(false, true)) === true && ($image->validateFieldsLang(false, true)) === true && $image->add()){
     								$image->associateTo($shops);
-    								if (!copyImg($data["id_product"], $image->id, $imagen_a_copiar, 'products',false)){
+    								if (!copyImg($data["id_product"], $imagen_a_copiar , $image->id,  'products')){
 										$image->delete();
 				                   
 				        			}else{
@@ -105,14 +106,7 @@ if(isset($_POST["categorias_seleccionadas"])){
 				        				
 				        			}
 				     			}
-					    	
-						
-
-
-
-
-
-
+				
 
 
 				     }

@@ -14,7 +14,6 @@ class Obuma extends Module{
 
     public function __construct(){
 
-
         $this->name = "obuma";
         $this->tab = "front_office_features";
         $this->version = "1.0.1"; 
@@ -29,6 +28,7 @@ class Obuma extends Module{
     }
     
     public function install(){
+
         include_once($this->local_path."sql/install.php");
 
         if(!parent::install() ||
@@ -75,10 +75,13 @@ class Obuma extends Module{
             return true;
 
         }
+
     }
     
     public function uninstall(){
+
         include_once($this->local_path."sql/uninstall.php");
+
         if(!parent::uninstall() ||
            !Configuration::deleteByName("rut_empresa") || 
            !Configuration::deleteByName("bodega") ||
@@ -111,8 +114,10 @@ class Obuma extends Module{
         }else{
             return true;
         }
+
     }
      public function hookDisplayBackOfficeHeader($params) {
+
         if (Tools::getValue("controller") === "AdminSincronizacion" || Tools::getValue("controller") === "AdminConfiguracion" || Tools::getValue("controller") === "AdminLogOrdenes" || Tools::getValue("controller") === "AdminVincularCategorias"  || Tools::getValue("controller") === "AdminOtros") {
             
             $this->context->controller->addCSS($this->local_path."views/css/back_obuma.css");
@@ -122,6 +127,7 @@ class Obuma extends Module{
             $this->context->controller->addJS("http://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js");
 
         }
+        
     }
 
     public function hookHeader(){
