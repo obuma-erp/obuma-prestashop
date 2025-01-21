@@ -60,7 +60,6 @@ class Obuma extends Module{
             !Configuration::updateValue("obuma_module_version","1.0.1") || 
             !$this->registerHook("DisplayBackOfficeHeader") || 
             !$this->registerHook("Header") ||
-            !$this->registerHook("actionOrderStatusUpdate") || 
             !$this->registerHook("actionOrderStatusPostUpdate") || 
             !$this->registerHook("actionValidateCustomerAddressForm") || 
             !$this->registerHook("AdditionalCustomerAddressFields") || 
