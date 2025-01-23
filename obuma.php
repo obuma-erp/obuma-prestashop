@@ -130,20 +130,22 @@ class Obuma extends Module{
     public function hookDisplayCustomerAccountForm($params){      
 
         $id_customer = (int) Tools::getValue('id_customer');
-        if ($id_customer) {
+        $rut = Tools::getValue('obuma_rut', ''); // Prioriza el valor enviado por POST
+    
+        // Recupera de la base de datos solo si no hay un valor en POST
+        if (!$rut && $id_customer) {
             $rut = Db::getInstance()->getValue('
                 SELECT obuma_rut 
                 FROM '._DB_PREFIX_.'customer 
                 WHERE id_customer = '.(int)$id_customer
             );
-        } else {
-            $rut = '';
         }
-
-
+    
+        // Asigna valores a Smarty para usar en la plantilla
         $this->context->smarty->assign('obuma_rut_label', 'R.U.T');
         $this->context->smarty->assign('obuma_rut', $rut);
-
+    
+        // Devuelve el contenido del formulario
         return $this->display(__FILE__, 'views/templates/hook/customer_form.tpl');
 
     }
