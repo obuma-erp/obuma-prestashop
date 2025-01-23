@@ -120,7 +120,8 @@ class Obuma extends Module{
 
 
     public function hookDisplayCustomerAccountForm($params)
-    {
+    {      
+        $this->context->smarty->assign('obuma_rut_label', 'R.U.T');
         $this->context->smarty->assign('obuma_rut', Tools::getValue('obuma_rut', ''));
 
         return $this->display(__FILE__, 'views/templates/hook/customer_form.tpl');
