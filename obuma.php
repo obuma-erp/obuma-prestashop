@@ -65,7 +65,7 @@ class Obuma extends Module{
             !$this->registerHook("AdditionalCustomerAddressFields") || 
             !$this->registerHook('actionCustomerAccountAdd') || 
             !$this->registerHook('displayCustomerAccountForm') ||
-            
+            !$this->registerHook('actionCustomerAccountUpdate') || 
             !$this->createTabLink()){
 
             return false;
@@ -118,9 +118,16 @@ class Obuma extends Module{
     }
 
 
+    public function hookActionCustomerAccountUpdate($params){
 
-    public function hookDisplayCustomerAccountForm($params)
-    {      
+        if (Tools::getValue('obuma_rut')) {
+            $params['customer']->obuma_rut = Tools::getValue('obuma_rut');
+        }
+
+    }
+
+
+    public function hookDisplayCustomerAccountForm($params){      
 
         $id_customer = (int) Tools::getValue('id_customer');
         if ($id_customer) {
@@ -138,6 +145,7 @@ class Obuma extends Module{
         $this->context->smarty->assign('obuma_rut', $rut);
 
         return $this->display(__FILE__, 'views/templates/hook/customer_form.tpl');
+
     }
 
     public function hookActionCustomerAccountAdd($params)
@@ -145,6 +153,7 @@ class Obuma extends Module{
         if (Tools::getValue('obuma_rut')) {
             $params['newCustomer']->obuma_rut = Tools::getValue('obuma_rut');
         }
+
     }
 
 
