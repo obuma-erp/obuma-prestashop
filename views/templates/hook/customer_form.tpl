@@ -1,10 +1,10 @@
 <div class="form-group">
-    <label for="custom_field">{$custom_field_label|escape:'html':'UTF-8'}</label>
+    <label for="obuma_rut">{$obuma_rut_label|escape:'html':'UTF-8'}</label>
     <input
         type="text"
         class="form-control"
-        name="custom_field"
-        id="custom_field"
-        value="{$custom_field|escape:'html':'UTF-8'}"
+        name="obuma_rut"
+        id="obuma_rut"
+        value="{$obuma_rut|escape:'html':'UTF-8'}"
     />
 </div>

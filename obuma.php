@@ -121,22 +121,22 @@ class Obuma extends Module{
 
     public function hookDisplayCustomerAccountForm($params)
     {
-        $this->context->smarty->assign('custom_field', Tools::getValue('custom_field', ''));
+        $this->context->smarty->assign('obuma_rut', Tools::getValue('obuma_rut', ''));
 
         return $this->display(__FILE__, 'views/templates/hook/customer_form.tpl');
     }
 
     public function hookActionCustomerAccountAdd($params)
     {
-        if (Tools::getValue('custom_field')) {
-            $params['newCustomer']->custom_field = Tools::getValue('custom_field');
+        if (Tools::getValue('obuma_rut')) {
+            $params['newCustomer']->obuma_rut = Tools::getValue('obuma_rut');
         }
     }
 
 
 
 
-    
+
      public function hookDisplayBackOfficeHeader($params) {
 
         if (Tools::getValue("controller") === "AdminSincronizacion" || Tools::getValue("controller") === "AdminConfiguracion" || Tools::getValue("controller") === "AdminLogOrdenes" || Tools::getValue("controller") === "AdminVincularCategorias"  || Tools::getValue("controller") === "AdminOtros") {
