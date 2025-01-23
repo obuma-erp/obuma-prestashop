@@ -121,8 +121,21 @@ class Obuma extends Module{
 
     public function hookDisplayCustomerAccountForm($params)
     {      
+
+        $id_customer = (int) Tools::getValue('id_customer');
+        if ($id_customer) {
+            $rut = Db::getInstance()->getValue('
+                SELECT obuma_rut 
+                FROM '._DB_PREFIX_.'customer 
+                WHERE id_customer = '.(int)$id_customer
+            );
+        } else {
+            $rut = '';
+        }
+
+
         $this->context->smarty->assign('obuma_rut_label', 'R.U.T');
-        $this->context->smarty->assign('obuma_rut', Tools::getValue('obuma_rut', ''));
+        $this->context->smarty->assign('obuma_rut', $rut);
 
         return $this->display(__FILE__, 'views/templates/hook/customer_form.tpl');
     }
