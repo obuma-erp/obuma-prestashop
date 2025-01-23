@@ -63,8 +63,8 @@ class Obuma extends Module{
             !$this->registerHook("actionOrderStatusPostUpdate") || 
             !$this->registerHook("actionValidateCustomerAddressForm") || 
             !$this->registerHook("AdditionalCustomerAddressFields") || 
-            !$this->registerHook('actionCustomerAccountAdd') || 
             !$this->registerHook('displayCustomerAccountForm') ||
+            !$this->registerHook('actionCustomerAccountAdd') || 
             !$this->registerHook('actionCustomerAccountUpdate') || 
             !$this->createTabLink()){
 
