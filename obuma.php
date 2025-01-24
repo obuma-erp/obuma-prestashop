@@ -66,6 +66,7 @@ class Obuma extends Module{
             !$this->registerHook('displayCustomerAccountForm') ||
             !$this->registerHook('actionCustomerAccountAdd') || 
             !$this->registerHook('actionCustomerAccountUpdate') || 
+            !$this->registerHook('displayCheckoutSummary') ||
             !$this->createTabLink()){
 
             return false;
