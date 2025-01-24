@@ -152,8 +152,15 @@ class Obuma extends Module{
 
     public function hookActionCustomerAccountAdd($params)
     {
-        if (Tools::getValue('obuma_rut')) {
-            $params['newCustomer']->obuma_rut = Tools::getValue('obuma_rut');
+        
+        $rut = Tools::getValue('obuma_rut');
+        if ($rut) {
+            // Obtén el ID del cliente recién creado
+            $customer = $params['newCustomer'];
+            $customer->obuma_rut = $rut;
+
+            // Guarda el nuevo campo en la base de datos
+            $customer->update();
         }
 
     }
