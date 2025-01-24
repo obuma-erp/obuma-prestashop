@@ -66,7 +66,7 @@ class Obuma extends Module{
             !$this->registerHook('displayCustomerAccountForm') ||
             !$this->registerHook('actionCustomerAccountAdd') || 
             !$this->registerHook('actionCustomerAccountUpdate') || 
-            !$this->registerHook('displayCheckoutSummary') ||
+            !$this->registerHook('displayCheckoutSummaryTop') ||
             !$this->createTabLink()){
 
             return false;
@@ -119,7 +119,7 @@ class Obuma extends Module{
     }
 
 
-    public function hookDisplayCheckoutSummary($params)
+    public function hookDisplayCheckoutSummaryTop($params)
 {
     $selected_option = Tools::getValue('invoice_type', 'boleta'); // Por defecto 'boleta'
     
