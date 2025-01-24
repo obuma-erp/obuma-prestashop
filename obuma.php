@@ -118,6 +118,24 @@ class Obuma extends Module{
     }
 
 
+    public function hookDisplayCheckoutSummary($params)
+{
+    $selected_option = Tools::getValue('invoice_type', 'boleta'); // Por defecto 'boleta'
+    
+    $this->context->smarty->assign(array(
+        'selected_option' => $selected_option,
+        'invoice_options' => array(
+            'boleta' => 'Boleta',
+            'factura' => 'Factura'
+        ),
+    ));
+    
+    return $this->display(__FILE__, 'views/templates/hook/invoice_selector.tpl');
+}
+
+
+
+
     public function hookActionCustomerAccountUpdate($params){
 
         // Obtiene el ID del cliente desde el objeto customer
