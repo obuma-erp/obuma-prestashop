@@ -131,7 +131,8 @@ class Obuma extends Module{
 
         $id_customer = (int) Tools::getValue('id_customer');
         $rut = Tools::getValue('obuma_rut', ''); // Prioriza el valor enviado por POST
-    
+        
+        var_dump((int)$id_customer);exit();
         // Recupera de la base de datos solo si no hay un valor en POST
         if (!$rut && $id_customer) {
             $rut = Db::getInstance()->getValue('
@@ -154,7 +155,7 @@ class Obuma extends Module{
     {
         
         $rut = Tools::getValue('obuma_rut');
-        
+
         if ($rut) {
             
             $id_customer = (int) $params['newCustomer']->id;
