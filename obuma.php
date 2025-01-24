@@ -120,8 +120,21 @@ class Obuma extends Module{
 
     public function hookActionCustomerAccountUpdate($params){
 
-        if (Tools::getValue('obuma_rut')) {
-            $params['customer']->obuma_rut = Tools::getValue('obuma_rut');
+        // Obtiene el ID del cliente desde el objeto customer
+        $id_customer = (int) $params['customer']->id;
+
+        // Obtiene el valor de obuma_rut desde el formulario
+        $rut = Tools::getValue('obuma_rut');
+
+        // Si el campo obuma_rut tiene un valor, realiza la actualización
+        if ($id_customer && $rut) {
+            Db::getInstance()->update(
+                'customer', // Tabla sin prefijo
+                array('obuma_rut' => pSQL($rut)), // Datos a actualizar
+                'id_customer = ' . $id_customer // Condición
+            );
+
+
         }
 
     }
