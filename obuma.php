@@ -154,13 +154,18 @@ class Obuma extends Module{
     {
         
         $rut = Tools::getValue('obuma_rut');
+        
         if ($rut) {
-            // Obtén el ID del cliente recién creado
-            $customer = $params['newCustomer'];
-            $customer->obuma_rut = $rut;
+            
+            $id_customer = (int) $params['newCustomer']->id;
 
-            // Guarda el nuevo campo en la base de datos
-            $customer->update();
+            
+            Db::getInstance()->update(
+                'customer', 
+                array('obuma_rut' => pSQL($rut)),
+                'id_customer = ' . $id_customer
+            );
+
         }
 
     }
