@@ -9,3 +9,19 @@
                {if $selected_option == 'factura'}checked{/if}> Factura
     </label>
 </div>
+
+
+
+<script>
+    document.addEventListener('submit', function (e) {
+        const selectedOption = document.querySelector('input[name="invoice_type"]:checked');
+        if (selectedOption) {
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = 'invoice_type';
+            hiddenInput.value = selectedOption.value;
+            e.target.appendChild(hiddenInput);
+        }
+    });
+</script>
+

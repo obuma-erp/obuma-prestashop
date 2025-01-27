@@ -139,6 +139,9 @@ class Obuma extends Module{
 
     public function hookDisplayCheckoutSummaryTop($params)
 {
+
+
+    /*
     $selected_option = Tools::getValue('invoice_type', 'boleta'); // Por defecto 'boleta'
     
     $this->context->smarty->assign(array(
@@ -150,6 +153,8 @@ class Obuma extends Module{
     ));
     
     return $this->display(__FILE__, 'views/templates/hook/invoice_selector.tpl');
+
+    */
 }
 
 
@@ -252,6 +257,10 @@ class Obuma extends Module{
     public function hookActionOrderStatusPostUpdate($params){
 
          $id = $params["id_order"];
+
+         $invoice_type = Tools::getValue('invoice_type');
+
+         var_dump($invoice_type);exit();
 
          $enviar_ventas_obuma = trim(Configuration::get("enviar_ventas_obuma"));
          $estado_enviar_obuma = trim(Configuration::get("estado_enviar_obuma"));
