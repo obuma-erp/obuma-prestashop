@@ -48,6 +48,7 @@ class Obuma extends Module{
             !Configuration::updateValue("registrar_contabilidad",0) || 
             !Configuration::updateValue("enviar_email_cliente",0) || 
             !Configuration::updateValue("registrar_cobro",0) || 
+            !Configuration::updateValue("registrar_producto",0) ||
             !Configuration::updateValue("tipo_documento","[]") ||
             !Configuration::updateValue("nota_venta_segundo_plano",0) || 
             !Configuration::updateValue("enviar_ventas_obuma",0) || 
@@ -102,6 +103,7 @@ class Obuma extends Module{
            !Configuration::deleteByName("registrar_contabilidad") || 
            !Configuration::deleteByName("enviar_email_cliente") || 
            !Configuration::deleteByName("registrar_cobro") ||
+           !Configuration::deleteByName("registrar_producto") ||
            !Configuration::deleteByName("tipo_documento") ||  
            !Configuration::deleteByName("nota_venta_segundo_plano") || 
            !Configuration::deleteByName("enviar_ventas_obuma") || 
