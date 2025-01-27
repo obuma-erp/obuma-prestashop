@@ -182,6 +182,16 @@
             </th>
      </tr>
 
+
+     <tr>
+         <th><label>REGISTRAR PRODUCTO</label></th>
+         <th><input type="radio" value="0" name="registrar_producto"  {if $registrar_producto == 0} checked {/if}   id="registrar_producto"> No 
+                <input type="radio"  {if $registrar_producto == 1} checked {/if}  name="registrar_producto"  id="registrar_producto" value="1"> Si <br>
+                <em style='color:#e74c3c;font-size: 0.8em;'>Si el producto de la venta no existe en OBUMA , será creado.</em>
+            </th>
+     </tr>
+
+
           <tr>
          <th><label>TIPO DE DOCUMENTO</label></th>
          <th><input type="checkbox" {if in_array(39,json_decode($tipo_documento))} checked {/if} multiple value="39" name="tipo_documento[]"  id="tipo_documento"> Boleta 

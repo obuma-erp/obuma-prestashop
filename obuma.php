@@ -67,6 +67,8 @@ class Obuma extends Module{
             !$this->registerHook('actionCustomerAccountAdd') || 
             !$this->registerHook('actionCustomerAccountUpdate') || 
             !$this->registerHook('displayCheckoutSummaryTop') ||
+            !$this->registerHook('displayCheckoutBeforeConfirmation') ||
+            
             !$this->createTabLink()){
 
             return false;
@@ -116,6 +118,22 @@ class Obuma extends Module{
             return true;
         }
 
+    }
+
+
+    public function hookDisplayCheckoutBeforeConfirmation($params)
+    {
+        $selected_option = Tools::getValue('invoice_type', 'boleta'); // Por defecto 'boleta'
+        
+        $this->context->smarty->assign(array(
+            'selected_option' => $selected_option,
+            'invoice_options' => array(
+                'boleta' => 'Boleta',
+                'factura' => 'Factura'
+            ),
+        ));
+        
+        return $this->display(__FILE__, 'views/templates/hook/invoice_selector.tpl');
     }
 
 
@@ -313,6 +331,7 @@ class Obuma extends Module{
                 $data["registrar_contabilidad"] = Configuration::get("registrar_contabilidad");
                 $data["enviar_email_cliente"] = Configuration::get("enviar_email_cliente");
                 $data["registrar_cobro"] = Configuration::get("registrar_cobro");
+                $data["registrar_producto"] = Configuration::get("registrar_producto");
                     
                 if(Configuration::get("registrar_cobro") == 1){
 
@@ -468,12 +487,8 @@ class Obuma extends Module{
 
             if($id_address == 0){
 
-                $alias = Tools::getValue("alias") == null ? "Mi Direccion" : Tools::getValue("alias");
-                $firstname = Tools::getValue("firstname");
-
-
                 $lastname = Tools::getValue("lastname");
-                $company = Tools::getValue("company") == null ? "" : Tools::getValue("company");
+                $company = (Tools::getValue("company") == null || empty(Tools::getValue("company"))) ? "" : Tools::getValue("company");
                 $dni = Tools::getValue("dni");
                 $address1 = Tools::getValue("address1");
                 $address2 = Tools::getValue("address2") == null ? "" : Tools::getValue("address2");
@@ -782,6 +797,7 @@ class Obuma extends Module{
         'venta_registrar_contabilidad'   => $data["registrar_contabilidad"],
         'venta_enviar_email_cliente'   => $data["enviar_email_cliente"],
         'venta_registrar_cobro'   => $data["registrar_cobro"],
+        'venta_registrar_producto'   => $data["registrar_producto"],
         'venta_forma_pago'   => $data["forma_pago"],
         'venta_exento'          => 0,
         'venta_neto'                => number_format($data["total_neto"],0,'.',''), 
