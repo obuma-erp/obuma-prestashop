@@ -40,6 +40,7 @@ class AdminConfiguracionController extends ModuleAdminController{
             $registrar_contabilidad = Tools::getValue("registrar_contabilidad");
             $enviar_email_cliente = Tools::getValue("enviar_email_cliente");
             $registrar_cobro = Tools::getValue("registrar_cobro");
+            $registrar_producto = Tools::getValue("registrar_producto");
 
             $tipo_documento = is_array(Tools::getValue("tipo_documento")) ?  json_encode(Tools::getValue("tipo_documento")) : "[]";
             $nota_venta_segundo_plano = Tools::getValue("nota_venta_segundo_plano");
@@ -68,6 +69,7 @@ class AdminConfiguracionController extends ModuleAdminController{
             Configuration::updateValue("registrar_contabilidad",$registrar_contabilidad);
             Configuration::updateValue("enviar_email_cliente",$enviar_email_cliente);
             Configuration::updateValue("registrar_cobro",$registrar_cobro);
+            Configuration::updateValue("registrar_producto",$registrar_producto);
             Configuration::updateValue("tipo_documento",$tipo_documento);
             Configuration::updateValue("nota_venta_segundo_plano",$nota_venta_segundo_plano);
             Configuration::updateValue("enviar_ventas_obuma",$enviar_ventas_obuma);
@@ -100,6 +102,7 @@ class AdminConfiguracionController extends ModuleAdminController{
         $registrar_contabilidad_text = Configuration::get("registrar_contabilidad");
         $enviar_email_cliente_text = Configuration::get("enviar_email_cliente");
         $registrar_cobro_text = Configuration::get("registrar_cobro");
+        $registrar_producto_text = Configuration::get("registrar_producto");
         $tipo_documento_text = Configuration::get("tipo_documento");
         $nota_venta_segundo_plano_text = Configuration::get("nota_venta_segundo_plano");
         $enviar_ventas_obuma_text = Configuration::get("enviar_ventas_obuma");
@@ -128,6 +131,7 @@ class AdminConfiguracionController extends ModuleAdminController{
         $this->context->smarty->assign("registrar_contabilidad",$registrar_contabilidad_text);
         $this->context->smarty->assign("enviar_email_cliente",$enviar_email_cliente_text);
         $this->context->smarty->assign("registrar_cobro",$registrar_cobro_text);
+        $this->context->smarty->assign("registrar_producto",$registrar_producto_text);
         $this->context->smarty->assign("tipo_documento",$tipo_documento_text);
         $this->context->smarty->assign("nota_venta_segundo_plano",$nota_venta_segundo_plano_text);
         $this->context->smarty->assign("enviar_ventas_obuma",$enviar_ventas_obuma_text);
