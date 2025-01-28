@@ -260,14 +260,13 @@ class Obuma extends Module{
 
     public function hookActionValidateOrder($params){
 
-        $cart = $params['cart'];
 
         $order = $params['order'];
 
-        $invoiceType = Tools::getValue('invoice_type');
+        $invoiceType = Tools::getValue('invoice_type_value');
 
         var_dump($invoiceType);exit();
-        
+
         if ($invoiceType) {
 
             Db::getInstance()->insert('obuma_order', [

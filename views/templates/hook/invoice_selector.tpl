@@ -18,7 +18,7 @@
         if (selectedOption) {
             const hiddenInput = document.createElement('input');
             hiddenInput.type = 'hidden';
-            hiddenInput.name = 'invoice_type';
+            hiddenInput.name = 'invoice_type_value';
             hiddenInput.value = selectedOption.value;
             e.target.appendChild(hiddenInput);
         }
