@@ -14,18 +14,27 @@
 <script>
     
     function addInvoiceType(checkbox){
-        
-        const form = checkbox.closest('form');
 
-        const selectedOption = document.querySelector('input[name="invoice_type"]:checked');
 
-        if (selectedOption) {
+        const form = forms[forms.length - 1]; 
 
-            const hiddenInput = document.createElement('input');
-            hiddenInput.type = 'hidden';
-            hiddenInput.name = 'invoice_type_value';
-            hiddenInput.value = selectedOption.value;
-            form.appendChild(hiddenInput);
+         if (form) {
+
+            const selectedOption = document.querySelector('input[name="invoice_type"]:checked');
+
+            if (selectedOption) {
+
+                const hiddenInput = document.createElement('input');
+
+                hiddenInput.type = 'hidden';
+
+                hiddenInput.name = 'invoice_type_value';
+
+                hiddenInput.value = selectedOption.value;
+
+                form.appendChild(hiddenInput);
+
+            }
 
         }
 
