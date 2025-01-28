@@ -40,12 +40,14 @@ $sql = array();
      $sql[] = "CREATE TABLE IF NOT EXISTS $table_obuma_order (
       `id` int(11) NOT NULL AUTO_INCREMENT,
        `order_id` int(11)  NOT NULL,
+       `invoice_type` int(11)  NOT NULL,
       `dte_id` int(11)  NOT NULL,
        `dte_tipo` int(11)  NOT NULL,
         `dte_folio` int(11)  NOT NULL,
       `dte_result` text  NOT NULL,
       `dte_xml` text  NOT NULL,
       `dte_pdf` text  NOT NULL,
+      `fecha_registro` datetime  NOT NULL,
       `fecha` date  NOT NULL,
       `hora` time  NOT NULL,
        PRIMARY KEY (`id`))";

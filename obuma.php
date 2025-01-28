@@ -61,6 +61,7 @@ class Obuma extends Module{
             !Configuration::updateValue("obuma_module_version","1.0.1") || 
             !$this->registerHook("DisplayBackOfficeHeader") || 
             !$this->registerHook("Header") ||
+            !$this->registerHook("actionValidateOrder") ||
             !$this->registerHook("actionOrderStatusPostUpdate") || 
             !$this->registerHook("actionValidateCustomerAddressForm") || 
             !$this->registerHook("AdditionalCustomerAddressFields") || 
@@ -256,13 +257,33 @@ class Obuma extends Module{
         $this->context->controller->addJS($this->local_path."views/js/app.js");
     }
 
+
+    public function hookActionValidateOrder($params){
+
+        $cart = $params['cart'];
+
+        $order = $params['order'];
+
+        $invoiceType = Tools::getValue('invoice_type');
+
+        var_dump($invoiceType);exit();
+        
+        if ($invoiceType) {
+
+            Db::getInstance()->insert('obuma_order', [
+                'order_id' => (int) $order->id,
+                'invoice_type' => pSQL($invoiceType),
+                'fecha_registro' => date("Y-m-d H:i:s")
+            ]);
+
+        }
+
+    }
+
     public function hookActionOrderStatusPostUpdate($params){
 
          $id = $params["id_order"];
 
-         $invoice_type = Tools::getValue('invoice_type');
-
-         var_dump($invoice_type);exit();
 
          $enviar_ventas_obuma = trim(Configuration::get("enviar_ventas_obuma"));
          $estado_enviar_obuma = trim(Configuration::get("estado_enviar_obuma"));
@@ -873,7 +894,20 @@ class Obuma extends Module{
 
 private function insert_order_obuma($data){
 
-   Db::getInstance()->execute("INSERT INTO ". _DB_PREFIX_."obuma_order(order_id,dte_id,dte_tipo,dte_folio,dte_result,dte_xml,dte_pdf,fecha,hora) VALUES " . "('".$data["order_id"]."','".$data['dte_id']."','".$data['dte_tipo']."','".$data['dte_folio']."','".$data['dte_result']."','".$data["dte_xml"]."','".$data["dte_pdf"]."','".date('Y-m-d')."','".date("H:i:s")."')");
+    $result = Db::getInstance()->execute("
+    UPDATE " . _DB_PREFIX_ . "obuma_order
+    SET 
+        dte_id = '" . pSQL($data['dte_id']) . "',
+        dte_tipo = '" . pSQL($data['dte_tipo']) . "',
+        dte_folio = '" . pSQL($data['dte_folio']) . "',
+        dte_result = '" . pSQL($data['dte_result']) . "',
+        dte_xml = '" . pSQL($data['dte_xml']) . "',
+        dte_pdf = '" . pSQL($data['dte_pdf']) . "',
+        fecha = '" . pSQL(date('Y-m-d')) . "',
+        hora = '" . pSQL(date('H:i:s')) . "'
+    WHERE order_id = '" . (int)$data['order_id'] . "'
+    ");
+
 
 }
 
