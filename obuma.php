@@ -274,7 +274,9 @@ class Obuma extends Module{
 
     public function hookActionValidateOrder($params){
 
-        var_dump($_GET);exit();
+        $context = Context::getContext();
+
+        var_dump($context);exit();
         /*
         $order = $params['order'];
 
