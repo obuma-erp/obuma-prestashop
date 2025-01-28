@@ -61,6 +61,7 @@ class Obuma extends Module{
             !Configuration::updateValue("obuma_module_version","1.0.1") || 
             !$this->registerHook("DisplayBackOfficeHeader") || 
             !$this->registerHook("Header") ||
+            !$this->registerHook("actionCartSave") ||
             !$this->registerHook("actionValidateOrder") ||
             !$this->registerHook("actionOrderStatusPostUpdate") || 
             !$this->registerHook("actionValidateCustomerAddressForm") || 
@@ -258,6 +259,18 @@ class Obuma extends Module{
     }
 
 
+    public function hookActionCartSave($params){
+    $invoiceType = Tools::getValue('invoice_type_value');
+
+    var_dump($invoiceType);exit();
+    
+    if ($invoiceType) {
+        $this->context->cart->invoice_type = $invoiceType;
+        $this->context->cart->update(); // Guarda los cambios
+    }
+}
+
+
     public function hookActionValidateOrder($params){
 
 
@@ -265,9 +278,7 @@ class Obuma extends Module{
 
         $invoiceType = Tools::getValue('invoice_type_value');
 
-        PrestaShopLogger::addLog('Contenido de POST: ' . print_r($_POST, true));
         
-        var_dump($invoiceType);exit();
 
         if ($invoiceType) {
 
