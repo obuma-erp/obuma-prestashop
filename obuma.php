@@ -71,6 +71,7 @@ class Obuma extends Module{
             !$this->registerHook('actionCustomerAccountUpdate') || 
             !$this->registerHook('displayCheckoutSummaryTop') ||
             !$this->registerHook('displayCheckoutBeforeConfirmation') ||
+            !$this->registerHook('actionPaymentConfirmation') ||
             
             !$this->createTabLink()){
 
@@ -263,20 +264,31 @@ class Obuma extends Module{
 
         $invoiceType = Tools::getValue('invoice_type_value');
 
-
-
         if ($invoiceType) {
             $this->context->cart->invoice_type = $invoiceType;
             $this->context->cart->update(); // Guarda los cambios
         }
-}
+    }
+
+    public function hookActionPaymentConfirmation($params){
+        
+        $idOrder = $params['id_order'];
+
+        // Verificar si el campo fue enviado
+        if (isset($_POST)) {
+            $invoiceTypeValue = pSQL($_POST['invoice_type_value']); // Escapar para seguridad
+
+            var_dump($_POST);exit();
+        }
+    }
+
 
 
     public function hookActionValidateOrder($params){
 
         $context = Context::getContext();
 
-        var_dump($context);exit();
+        //var_dump($context);exit();
         /*
         $order = $params['order'];
 
