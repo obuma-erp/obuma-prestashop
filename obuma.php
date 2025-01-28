@@ -273,7 +273,7 @@ class Obuma extends Module{
     public function hookActionPaymentConfirmation($params){
         
         $idOrder = $params['id_order'];
-
+        PrestaShopLogger::addLog('Datos POST payment confirmation: ' . print_r($_POST, true));
         var_dump($_POST);exit();
         // Verificar si el campo fue enviado
         if (isset($_POST)) {
