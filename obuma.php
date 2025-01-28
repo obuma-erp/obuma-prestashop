@@ -274,14 +274,15 @@ class Obuma extends Module{
 
     public function hookActionValidateOrder($params){
 
+
+        /*
         $order = $params['order'];
 
         //$invoiceType = Tools::getValue('invoice_type_value');
 
-        var_dump($order,$_POST);exit();
+        
         $invoiceType = $params['cart']->invoice_type;
 
-        var_dump($invoiceType);exit();
 
         if ($invoiceType) {
             Db::getInstance()->insert('obuma_order', [
@@ -291,12 +292,17 @@ class Obuma extends Module{
             ]);
         }
 
+        */
+
     }
 
     public function hookActionOrderStatusPostUpdate($params){
 
          $id = $params["id_order"];
 
+         $invoiceType = Tools::getValue('invoice_type_value');
+
+         var_dump($invoiceType);exit();
 
          $enviar_ventas_obuma = trim(Configuration::get("enviar_ventas_obuma"));
          $estado_enviar_obuma = trim(Configuration::get("estado_enviar_obuma"));
