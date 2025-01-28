@@ -276,7 +276,6 @@ class Obuma extends Module{
 
         $order = $params['order'];
 
-        var_dump($order);exit();
         $invoiceType = $params['cart']->invoice_type;
 
         var_dump($invoiceType);exit();
