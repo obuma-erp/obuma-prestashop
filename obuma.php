@@ -276,9 +276,9 @@ class Obuma extends Module{
 
         $order = $params['order'];
 
-        $invoiceType = Tools::getValue('invoice_type_value');
+        //$invoiceType = Tools::getValue('invoice_type_value');
 
-        var_dump($order,$invoiceType);exit();
+        var_dump($order,$_POST);exit();
         $invoiceType = $params['cart']->invoice_type;
 
         var_dump($invoiceType);exit();
