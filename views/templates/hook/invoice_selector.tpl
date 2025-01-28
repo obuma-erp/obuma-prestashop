@@ -25,12 +25,12 @@
 
             if (selectedOption) {
 
-                if(document.getElemenById("invoice_type_value")){
+                if(document.getElementById("invoice_type_value")){
 
-                    document.getElemenById("invoice_type_value").remove();
+                    document.getElementById("invoice_type_value").remove();
 
                 }
-                
+
                 const hiddenInput = document.createElement('input');
 
                 hiddenInput.type = 'hidden';
