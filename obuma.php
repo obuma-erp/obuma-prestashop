@@ -265,6 +265,8 @@ class Obuma extends Module{
 
         $invoiceType = Tools::getValue('invoice_type_value');
 
+        PrestaShopLogger::addLog('Contenido de POST: ' . print_r($_POST, true));
+        
         var_dump($invoiceType);exit();
 
         if ($invoiceType) {
