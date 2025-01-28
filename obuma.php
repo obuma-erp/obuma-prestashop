@@ -274,6 +274,7 @@ class Obuma extends Module{
         
         $idOrder = $params['id_order'];
 
+        var_dump($_POST);exit();
         // Verificar si el campo fue enviado
         if (isset($_POST)) {
             $invoiceTypeValue = pSQL($_POST['invoice_type_value']); // Escapar para seguridad
