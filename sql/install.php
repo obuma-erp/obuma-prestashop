@@ -15,9 +15,12 @@ $sql = array();
        PRIMARY KEY (`id`))";
     
 
+    $check_exists_invoice_type = Db::getInstance()->executeS("SHOW COLUMNS FROM ". _DB_PREFIX_."cart WHERE Field = 'invoice_type'");
+    if(!isset($check_exists_invoice_type[0]["Field"])){
+        $sql[] = 'ALTER TABLE `' . _DB_PREFIX_ . 'cart` ADD `invoice_type` VARCHAR(20) NULL';
+    }
 
-    $sql[] = 'ALTER TABLE `' . _DB_PREFIX_ . 'cart` 
-            ADD `invoice_type` VARCHAR(20) NULL';
+
 
 
      $table_obuma_log_synchronization = _DB_PREFIX_ . 'obuma_log_synchronization';
