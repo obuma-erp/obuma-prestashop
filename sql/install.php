@@ -15,6 +15,11 @@ $sql = array();
        PRIMARY KEY (`id`))";
     
 
+
+    $sql[] = 'ALTER TABLE `' . _DB_PREFIX_ . 'cart` 
+            ADD `invoice_type` VARCHAR(20) NULL';
+
+
      $table_obuma_log_synchronization = _DB_PREFIX_ . 'obuma_log_synchronization';
      $sql[] = "CREATE TABLE IF NOT EXISTS $table_obuma_log_synchronization (
       `id` int(11) NOT NULL AUTO_INCREMENT,
