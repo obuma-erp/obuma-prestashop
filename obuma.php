@@ -260,10 +260,11 @@ class Obuma extends Module{
 
 
     public function hookActionCartSave($params){
+
     $invoiceType = Tools::getValue('invoice_type_value');
 
-    var_dump($invoiceType);exit();
-    
+
+
     if ($invoiceType) {
         $this->context->cart->invoice_type = $invoiceType;
         $this->context->cart->update(); // Guarda los cambios
@@ -273,21 +274,18 @@ class Obuma extends Module{
 
     public function hookActionValidateOrder($params){
 
-
         $order = $params['order'];
 
-        $invoiceType = Tools::getValue('invoice_type_value');
+        $invoiceType = $params['cart']->invoice_type;
 
+        var_dump($invoiceType);exit();
         
-
         if ($invoiceType) {
-
             Db::getInstance()->insert('obuma_order', [
                 'order_id' => (int) $order->id,
                 'invoice_type' => pSQL($invoiceType),
                 'fecha_registro' => date("Y-m-d H:i:s")
             ]);
-
         }
 
     }
