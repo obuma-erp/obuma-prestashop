@@ -302,7 +302,7 @@ class Obuma extends Module{
 
          $invoiceType = Tools::getValue('invoice_type_value');
 
-         var_dump($_POST);exit();
+         var_dump($params);exit();
 
          $enviar_ventas_obuma = trim(Configuration::get("enviar_ventas_obuma"));
          $estado_enviar_obuma = trim(Configuration::get("estado_enviar_obuma"));
