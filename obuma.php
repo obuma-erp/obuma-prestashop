@@ -274,7 +274,7 @@ class Obuma extends Module{
 
     public function hookActionValidateOrder($params){
 
-
+        var_dump($_GET);exit();
         /*
         $order = $params['order'];
 
@@ -302,7 +302,7 @@ class Obuma extends Module{
 
          $invoiceType = Tools::getValue('invoice_type_value');
 
-         var_dump($params);exit();
+         
 
          $enviar_ventas_obuma = trim(Configuration::get("enviar_ventas_obuma"));
          $estado_enviar_obuma = trim(Configuration::get("estado_enviar_obuma"));
