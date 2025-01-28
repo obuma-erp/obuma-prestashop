@@ -15,7 +15,8 @@
     
     function addInvoiceType(checkbox){
 
-
+        const forms = document.querySelectorAll('form');
+        
         const form = forms[forms.length - 1]; 
 
          if (form) {
