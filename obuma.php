@@ -262,33 +262,40 @@ class Obuma extends Module{
 
     public function hookActionCartSave($params){
 
+        /*
         $invoiceType = Tools::getValue('invoice_type_value');
 
         if ($invoiceType) {
             $this->context->cart->invoice_type = $invoiceType;
             $this->context->cart->update(); // Guarda los cambios
         }
+
+        */
     }
 
     public function hookActionPaymentConfirmation($params){
         
-        $idOrder = $params['id_order'];
-        
-        var_dump(Tools::getValue('invoice_type_value'));
-        var_dump($_POST);exit();
-        // Verificar si el campo fue enviado
-        if (isset($_POST)) {
-            $invoiceTypeValue = pSQL($_POST['invoice_type_value']); // Escapar para seguridad
+        /*
 
+            $idOrder = $params['id_order'];
+            
+            var_dump(Tools::getValue('invoice_type_value'));
             var_dump($_POST);exit();
-        }
+            // Verificar si el campo fue enviado
+            if (isset($_POST)) {
+                $invoiceTypeValue = pSQL($_POST['invoice_type_value']); // Escapar para seguridad
+
+                var_dump($_POST);exit();
+            }
+
+        */
     }
 
 
 
     public function hookActionValidateOrder($params){
 
-        $context = Context::getContext();
+        //$context = Context::getContext();
 
         //var_dump($context);exit();
         /*
@@ -642,9 +649,12 @@ class Obuma extends Module{
 
 
                 if($tipo_documento_seleccionado == 33){
+
                     echo "<script>window.location.href='pedido?newAddress=invoice';</script>";
                     exit();
+
                 }else{
+
                     if($saveAddress == "invoice"){
                          echo "<script>window.location.href='pedido?use_same_address=0';</script>";
                        
@@ -652,6 +662,7 @@ class Obuma extends Module{
                          echo "<script>window.location.href='pedido';</script>";
                     }
                     exit();
+
                 }
 
 
@@ -700,136 +711,139 @@ class Obuma extends Module{
 
     public function createTabLink(){
         
+        //Main Parent menu
 
-//Main Parent menu
-
-      $parentTab = new Tab();
-      $parentTab->active = 1;
-      $parentTab->name = array();
-      $parentTab->class_name = "AdminObuma";
-      foreach (Language::getLanguages() as $language) {
-          $parentTab->name[$language['id_lang']] = 'Obuma Sync';
-      }
-      $parentTab->id_parent = (int) Tab::getIdFromClassName('DEFAULT');;
-      $parentTab->module = '';
-      $parentTab->add();
-
-
-
-//Sub menu code
-
-      $parentTabID = Tab::getIdFromClassName('AdminObuma');
-      $parentTab = new Tab($parentTabID);
-
-      $tab = new Tab();
-      $tab->active = 1;
-      $tab->class_name = "AdminConfiguracion";
-      $tab->name = array();
-      foreach (Language::getLanguages() as $language) {
-          $tab->name[$language['id_lang']] = $this->l('Configurar');
-      }
-      $tab->id_parent = $parentTab->id;
-      $tab->module = $this->name;
-      $tab->add();
+        $parentTab = new Tab();
+        $parentTab->active = 1;
+        $parentTab->name = array();
+        $parentTab->class_name = "AdminObuma";
+        foreach (Language::getLanguages() as $language) {
+            
+            $parentTab->name[$language['id_lang']] = 'Obuma Sync';
+        }
+        $parentTab->id_parent = (int) Tab::getIdFromClassName('DEFAULT');;
+        $parentTab->module = '';
+        $parentTab->add();
 
 
 
-//Sub menu code
+        //Sub menu code
 
-      $parentTabID = Tab::getIdFromClassName('AdminObuma');
-      $parentTab = new Tab($parentTabID);
+        $parentTabID = Tab::getIdFromClassName('AdminObuma');
+        $parentTab = new Tab($parentTabID);
 
-      $tab = new Tab();
-      $tab->active = 1;
-      $tab->class_name = "AdminSincronizacion";
-      $tab->name = array();
-      foreach (Language::getLanguages() as $language) {
-          $tab->name[$language['id_lang']] = $this->l('Sincronizar');
-      }
-      $tab->id_parent = $parentTab->id;
-      $tab->module = $this->name;
-      $tab->add();
-
-
-
-      //Sub menu code
-
-      $parentTabID = Tab::getIdFromClassName('AdminObuma');
-      $parentTab = new Tab($parentTabID);
-
-      $tab = new Tab();
-      $tab->active = 1;
-      $tab->class_name = "AdminVincularCategorias";
-      $tab->name = array();
-      foreach (Language::getLanguages() as $language) {
-          $tab->name[$language['id_lang']] = $this->l('Vincular categorias');
-      }
-      $tab->id_parent = $parentTab->id;
-      $tab->module = $this->name;
-      $tab->add();
+        $tab = new Tab();
+        $tab->active = 1;
+        $tab->class_name = "AdminConfiguracion";
+        $tab->name = array();
+        foreach (Language::getLanguages() as $language) {
+            $tab->name[$language['id_lang']] = $this->l('Configurar');
+        }
+            
+        $tab->id_parent = $parentTab->id;
+            
+        $tab->module = $this->name;
+            
+        $tab->add();
 
 
-      //Sub menu code
 
-      $parentTabID = Tab::getIdFromClassName('AdminObuma');
-      $parentTab = new Tab($parentTabID);
+        //Sub menu code
 
-      $tab = new Tab();
-      $tab->active = 1;
-      $tab->class_name = "AdminLogSincronizacion";
-      $tab->name = array();
-      foreach (Language::getLanguages() as $language) {
-          $tab->name[$language['id_lang']] = $this->l('Log de sincronizacion');
-      }
-      $tab->id_parent = $parentTab->id;
-      $tab->module = $this->name;
-      $tab->add();
+        $parentTabID = Tab::getIdFromClassName('AdminObuma');
+        $parentTab = new Tab($parentTabID);
 
-    //Sub menu code
+        $tab = new Tab();
+        $tab->active = 1;
+        $tab->class_name = "AdminSincronizacion";
+        $tab->name = array();
+        foreach (Language::getLanguages() as $language) {
+            $tab->name[$language['id_lang']] = $this->l('Sincronizar');
+        }
+        $tab->id_parent = $parentTab->id;
+        $tab->module = $this->name;
+        $tab->add();
 
-      $parentTabID = Tab::getIdFromClassName('AdminObuma');
-      $parentTab = new Tab($parentTabID);
 
-      $tab = new Tab();
-      $tab->active = 1;
-      $tab->class_name = "AdminLogOrdenes";
-      $tab->name = array();
-      foreach (Language::getLanguages() as $language) {
-          $tab->name[$language['id_lang']] = $this->l('Log de ordenes');
-      }
-      $tab->id_parent = $parentTab->id;
-      $tab->module = $this->name;
-      $tab->add();
 
-      //Sub menu code
+        //Sub menu code
 
-      $parentTabID = Tab::getIdFromClassName('AdminObuma');
-      $parentTab = new Tab($parentTabID);
+        $parentTabID = Tab::getIdFromClassName('AdminObuma');
+        $parentTab = new Tab($parentTabID);
 
-      $tab = new Tab();
-      $tab->active = 1;
-      $tab->class_name = "AdminLogWebhook";
-      $tab->name = array();
-      foreach (Language::getLanguages() as $language) {
-          $tab->name[$language['id_lang']] = $this->l('Log de webhook');
-      }
-      $tab->id_parent = $parentTab->id;
-      $tab->module = $this->name;
-      $tab->add();
+        $tab = new Tab();
+        $tab->active = 1;
+        $tab->class_name = "AdminVincularCategorias";
+        $tab->name = array();
+        foreach (Language::getLanguages() as $language) {
+            $tab->name[$language['id_lang']] = $this->l('Vincular categorias');
+        }
+        $tab->id_parent = $parentTab->id;
+        $tab->module = $this->name;
+        $tab->add();
 
-      $parentTabID = Tab::getIdFromClassName('AdminObuma');
-      $parentTab = new Tab($parentTabID);
 
-      $tab = new Tab();
-      $tab->active = 1;
-      $tab->class_name = "AdminOtros";
-      $tab->name = array();
-      foreach (Language::getLanguages() as $language) {
-          $tab->name[$language['id_lang']] = $this->l('Otros');
-      }
-      $tab->id_parent = $parentTab->id;
-      $tab->module = $this->name;
-      $tab->add();
+        //Sub menu code
+
+        $parentTabID = Tab::getIdFromClassName('AdminObuma');
+        $parentTab = new Tab($parentTabID);
+
+        $tab = new Tab();
+        $tab->active = 1;
+        $tab->class_name = "AdminLogSincronizacion";
+        $tab->name = array();
+        foreach (Language::getLanguages() as $language) {
+            $tab->name[$language['id_lang']] = $this->l('Log de sincronizacion');
+        }
+        $tab->id_parent = $parentTab->id;
+        $tab->module = $this->name;
+        $tab->add();
+
+        //Sub menu code
+
+        $parentTabID = Tab::getIdFromClassName('AdminObuma');
+        $parentTab = new Tab($parentTabID);
+
+        $tab = new Tab();
+        $tab->active = 1;
+        $tab->class_name = "AdminLogOrdenes";
+        $tab->name = array();
+        foreach (Language::getLanguages() as $language) {
+            $tab->name[$language['id_lang']] = $this->l('Log de ordenes');
+        }
+        $tab->id_parent = $parentTab->id;
+        $tab->module = $this->name;
+        $tab->add();
+
+        //Sub menu code
+
+        $parentTabID = Tab::getIdFromClassName('AdminObuma');
+        $parentTab = new Tab($parentTabID);
+
+        $tab = new Tab();
+        $tab->active = 1;
+        $tab->class_name = "AdminLogWebhook";
+        $tab->name = array();
+        foreach (Language::getLanguages() as $language) {
+            $tab->name[$language['id_lang']] = $this->l('Log de webhook');
+        }
+        $tab->id_parent = $parentTab->id;
+        $tab->module = $this->name;
+        $tab->add();
+
+        $parentTabID = Tab::getIdFromClassName('AdminObuma');
+        $parentTab = new Tab($parentTabID);
+
+        $tab = new Tab();
+        $tab->active = 1;
+        $tab->class_name = "AdminOtros";
+        $tab->name = array();
+        foreach (Language::getLanguages() as $language) {
+            $tab->name[$language['id_lang']] = $this->l('Otros');
+        }
+        $tab->id_parent = $parentTab->id;
+        $tab->module = $this->name;
+        $tab->add();
 
 
         return true;

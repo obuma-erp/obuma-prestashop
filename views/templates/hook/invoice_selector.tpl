@@ -4,6 +4,7 @@
         <input type="radio" name="invoice_type" value="boleta"  onchange="addInvoiceType(this)" 
                {if $selected_option == 'boleta'}checked{/if}> Boleta
     </label>
+    <br>
     <label>
         <input type="radio" name="invoice_type" value="factura"   onchange="addInvoiceType(this)" 
                {if $selected_option == 'factura'}checked{/if}> Factura
