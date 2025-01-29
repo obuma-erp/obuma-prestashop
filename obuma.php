@@ -678,12 +678,12 @@ class Obuma extends Module{
         $enviar_ventas_obuma = Configuration::get("enviar_ventas_obuma");
         $extra_fields = [];
     
-        // Campo RUT (después de nombres y apellidos)
-        $extra_fields['obuma_rut'] = (new FormField())
-            ->setName('obuma_rut')
-            ->setLabel('RUT')
-            ->setType('text')
-            ->setRequired(true);
+        // Utilizar vat_number como RUT
+        $extra_fields['vat_number'] = (new FormField())
+        ->setName('vat_number')
+        ->setLabel('RUT')
+        ->setType('text')
+        ->setRequired(true);
     
         if ($enviar_ventas_obuma == 1) {
             $data_add = [];
