@@ -3,12 +3,6 @@
 $sql = array();
 
 
-$check_exists_invoice_type = Db::getInstance()->executeS("SHOW COLUMNS FROM ". _DB_PREFIX_."cart WHERE Field = 'invoice_type'");
-if(isset($check_exists_invoice_type[0]["Field"])){
-    $sql[] = "ALTER TABLE ". _DB_PREFIX_."cart DROP invoice_type";
-}
-
-
 
 $check_exists_obuma_rut = Db::getInstance()->executeS("SHOW COLUMNS FROM ". _DB_PREFIX_."customer WHERE Field = 'obuma_rut'");
 if(isset($check_exists_obuma_rut[0]["Field"])){
