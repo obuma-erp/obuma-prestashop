@@ -673,9 +673,7 @@ class Obuma extends Module{
         
     }
 
-
     public function hookAdditionalCustomerAddressFields($params){
-
 
         $enviar_ventas_obuma = Configuration::get("enviar_ventas_obuma");
 
@@ -701,12 +699,7 @@ class Obuma extends Module{
 
         }
 
-
-
     }
-
-
-
 
 
     public function createTabLink(){
