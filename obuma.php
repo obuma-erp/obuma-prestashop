@@ -676,28 +676,40 @@ class Obuma extends Module{
     public function hookAdditionalCustomerAddressFields($params){
 
         $enviar_ventas_obuma = Configuration::get("enviar_ventas_obuma");
-
-        if($enviar_ventas_obuma == 1){
-
-            $extra_fields = array();
-
+        $extra_fields = [];
+    
+        // Campo RUT (después de nombres y apellidos)
+        $extra_fields['obuma_rut'] = (new FormField())
+            ->setName('obuma_rut')
+            ->setLabel('RUT')
+            ->setType('text')
+            ->setRequired(true);
+    
+        if ($enviar_ventas_obuma == 1) {
             $data_add = [];
-
-            $tipo_documento = json_decode(Configuration::get("tipo_documento"),true);
-
-            if(in_array(39, $tipo_documento)){
-                $data_add["39"] = "Boleta"; 
+    
+            $tipo_documento = json_decode(Configuration::get("tipo_documento"), true);
+    
+            if (in_array(39, $tipo_documento)) {
+                $data_add["39"] = "Boleta";
             }
-
-            if(in_array(33, $tipo_documento)){
+    
+            if (in_array(33, $tipo_documento)) {
                 $data_add["33"] = "Factura";
             }
-
-            $extra_fields['other'] = (new FormField)->setName('other')->setLabel('Tipo de documento')->setType("select")->setAvailableValues($data_add)->setRequired(true);
-
-            //return $extra_fields;
-
+    
+            if (!empty($data_add)) {
+                // Campo "Tipo de Documento" al final del formulario
+                $extra_fields['other'] = (new FormField())
+                    ->setName('other')
+                    ->setLabel('Tipo de documento')
+                    ->setType("select")
+                    ->setAvailableValues($data_add)
+                    ->setRequired(true);
+            }
         }
+    
+        return $extra_fields;
 
     }
 
